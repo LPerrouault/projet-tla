@@ -91,7 +91,7 @@ public class Game {
             }
         }
 
-        char[] walls = level.getWalls();
+        char[] walls = level.getWall();
 
         for(int i = 0; i<walls.length; i++) {
             switch (walls[i]) {

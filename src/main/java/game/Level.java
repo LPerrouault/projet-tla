@@ -10,7 +10,7 @@ interface Level {
     /*
     placement initial des murs et des sorties
     */
-    char[] getWalls();
+    char[] getWall();
 
     /*
     instructions de déplacement des fantômes
