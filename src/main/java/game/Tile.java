@@ -15,7 +15,7 @@ public class Tile {
     private ImageView imageView = new ImageView();
 
     public Tile(int x, int y, Pane parent) {
-        setState(TileState.EMPTY);
+        setState(TileState.E);
         imageView.setTranslateX(x * Game.TILE_SIZE);
         imageView.setTranslateY(y * Game.TILE_SIZE);
         Tooltip.install(imageView, new Tooltip("(" + x + ", " + y + ")"));
@@ -25,15 +25,15 @@ public class Tile {
     void setState(TileState state) {
         this.state = state;
         switch (state) {
-            case EMPTY:
+            case E:
                 imageView.setImage(SpritesLibrary.imgTile);
                 imageView.setViewOrder(20);
                 break;
-            case WALL:
+            case W:
                 imageView.setImage(SpritesLibrary.imgWall);
                 imageView.setViewOrder(0);
                 break;
-            case EXIT:
+            case F:
                 imageView.setImage(SpritesLibrary.imgExit);
                 imageView.setViewOrder(20);
                 break;

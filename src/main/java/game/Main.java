@@ -10,6 +10,7 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class Main extends Application {
 
@@ -50,7 +51,7 @@ public class Main extends Application {
             // démarre le jeu
             try {
                 game.start(1);
-            } catch (FileNotFoundException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
 
@@ -63,7 +64,7 @@ public class Main extends Application {
             game.setLevel(new LevelGame());
             try {
                 game.start(2);
-            } catch (FileNotFoundException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
             primaryStage.sizeToScene();

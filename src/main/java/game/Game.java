@@ -11,7 +11,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -78,7 +78,7 @@ public class Game {
         this.levelGame = levelGame;
     }
 
-    void start( int value) throws FileNotFoundException {
+    void start( int value) throws IOException {
 
         label.setText(message);
 
@@ -92,25 +92,33 @@ public class Game {
             }
         }
         char[] walls = null;
+        //choiw du niveau on charge different type de plateau de jeu
         if (value ==1){
-            walls = levelGame.getWalls("../res/Level1.txt");
+            //generation des murs
+            walls = levelGame.getWalls("src/main/resources/Level1.txt");
+            // fantômes
             ghosts = levelGame.getGhostsLevel1();
         }else if (value == 2){
-             walls = levelGame.getWalls("../res/Level2.txt");
+            //generation des murs
+
+            walls = levelGame.getWalls("src/main/resources/Level2.txt");
+            // fantômes
             ghosts = levelGame.getGhostsLevel2();
         }
 
         for(int i = 0; i<walls.length; i++) {
             switch (walls[i]) {
-                case '#':
-                    tiles[i].setState(TileState.WALL);
+                case 'W':
+                    tiles[i].setState(TileState.W);
                     break;
-                case '*':
-                    tiles[i].setState(TileState.EXIT);
+                case 'F':
+                    tiles[i].setState(TileState.F);
+                    break;
+                case 'E':
+                    tiles[i].setState(TileState.E);
             }
         }
 
-        // fantômes
 
 
 
@@ -177,7 +185,7 @@ public class Game {
 
         // le joueur a-t-il trouvé une sortie ?
         if (isExit(player_x, player_y)) {
-            tiles[player_y*BOARD_WIDTH + player_x].setState(TileState.EMPTY);
+            tiles[player_y*BOARD_WIDTH + player_x].setState(TileState.E);
             endGame(true);
         } else {
 
@@ -209,11 +217,11 @@ public class Game {
     }
 
     boolean isNotWall(int x, int y) {
-        return tiles[y*BOARD_WIDTH + x].getState() != TileState.WALL;
+        return tiles[y*BOARD_WIDTH + x].getState() != TileState.W;
     }
 
     boolean isExit(int x, int y) {
-        return tiles[y*BOARD_WIDTH + x].getState() == TileState.EXIT;
+        return tiles[y*BOARD_WIDTH + x].getState() == TileState.F;
     }
 
     public void animate() {

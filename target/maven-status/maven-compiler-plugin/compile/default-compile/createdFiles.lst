@@ -1,13 +1,5 @@
-game\Game.class
-game\Tile.class
-game\Ghost$1.class
-game\Level1.class
-game\TileState.class
-game\GhostAction.class
-game\Level2.class
+game/Main.class
+game/Level.class
+game/Game.class
+game/LevelGame.class
 module-info.class
-game\Level.class
-game\Ghost.class
-game\Tile$1.class
-game\Main.class
-game\SpritesLibrary.class

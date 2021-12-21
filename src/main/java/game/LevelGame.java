@@ -1,24 +1,31 @@
 package game;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class LevelGame implements Level {
 
 
-    public char[] getWalls(String file ) throws FileNotFoundException {
-        FileInputStream inputStream = new FileInputStream("res/Level2.txt");
-        Scanner scanner = new Scanner(file);
-        String s = null;
+    public char[] getWalls(String fileName ) throws FileNotFoundException {
 
-        while (scanner.hasNextLine()){
-            s += scanner.nextLine();
+//        FileInputStream inputStream = new FileInputStream("src/game/Level1.txt");
+//        Scanner scanner = new Scanner(file);
+        String line = null;
+
+        try (var scanner = new Scanner(new File(fileName))) {
+
+            while (scanner.hasNext()) {
+                if (line ==null)
+                    line = scanner.nextLine();
+
+                line = line+'\n'+scanner.nextLine();
+                //System.out.println(line);
+            }
         }
-        scanner.close();
-
-        return s.toCharArray();
+        System.out.println();
+        System.out.println(line);
+        return line.toCharArray();
     }
 
     public ArrayList<Ghost> getGhostsLevel1() {
@@ -157,13 +164,13 @@ public class LevelGame implements Level {
     public void adjustWalls(Game game) {
         game.getTile(2, 9).setState(
                 game.isVisited(2, 10) > 0 ?
-                        TileState.WALL :
-                        TileState.EMPTY
+                        TileState.W :
+                        TileState.E
         );
         game.getTile(12, 7).setState(
                 (game.isVisited(2, 10) == 1 && game.isVisited(12, 4) != 1) ?
-                        TileState.EMPTY :
-                        TileState.WALL
+                        TileState.E :
+                        TileState.W
         );
     }
 }
