@@ -11,6 +11,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 
+import java.io.FileNotFoundException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -50,7 +51,7 @@ public class Game {
     private boolean running;
 
     // niveau en cours
-    Level level;
+    LevelGame levelGame;
 
     Game(BorderPane borderPane) {
         pane = new Pane();
@@ -73,11 +74,11 @@ public class Game {
         timeline.play();
     }
 
-    void setLevel(Level level) {
-        this.level = level;
+    void setLevel(LevelGame levelGame) {
+        this.levelGame = levelGame;
     }
 
-    void start() {
+    void start( int value) throws FileNotFoundException {
 
         label.setText(message);
 
@@ -90,8 +91,14 @@ public class Game {
                 tiles[y*BOARD_WIDTH + x] = new Tile(x, y, pane);
             }
         }
-
-        char[] walls = level.getWalls();
+        char[] walls = null;
+        if (value ==1){
+            walls = levelGame.getWalls("../res/Level1.txt");
+            ghosts = levelGame.getGhostsLevel1();
+        }else if (value == 2){
+             walls = levelGame.getWalls("../res/Level2.txt");
+            ghosts = levelGame.getGhostsLevel2();
+        }
 
         for(int i = 0; i<walls.length; i++) {
             switch (walls[i]) {
@@ -105,7 +112,7 @@ public class Game {
 
         // fantômes
 
-        ghosts = level.getGhosts();
+
 
         // position initiale du joueur
 
@@ -188,7 +195,7 @@ public class Game {
             visited[player_y*BOARD_WIDTH + player_x] = value;
 
             // Mise à jour de la visibilité des murs
-            level.adjustWalls(this);
+            levelGame.adjustWalls(this);
         }
 
     }

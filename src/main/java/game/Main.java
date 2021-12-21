@@ -9,6 +9,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
+import java.io.FileNotFoundException;
+
 public class Main extends Application {
 
     public static void main(String[] args) {
@@ -43,10 +45,14 @@ public class Main extends Application {
             scene.setRoot(gamePane);
 
             // affecte un object correspondant au niveau choisi
-            game.setLevel(new Level1());
+            game.setLevel(new LevelGame());
 
             // démarre le jeu
-            game.start();
+            try {
+                game.start(1);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
 
             // ajuste la taille de la fenêtre
             primaryStage.sizeToScene();
@@ -54,8 +60,12 @@ public class Main extends Application {
 
         btnLevel2.setOnAction(event -> {
             scene.setRoot(gamePane);
-            game.setLevel(new Level2());
-            game.start();
+            game.setLevel(new LevelGame());
+            try {
+                game.start(2);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
             primaryStage.sizeToScene();
         });
 
@@ -70,7 +80,7 @@ public class Main extends Application {
             }
             if (event.getCode() == KeyCode.R) {
                 // touche r : redémarre le niveau en cours
-                game.start();
+//                game.start();
             }
             if (event.getCode() == KeyCode.LEFT) {
                 game.left();
