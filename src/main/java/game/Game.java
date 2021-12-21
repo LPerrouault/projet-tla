@@ -95,13 +95,13 @@ public class Game {
         //choiw du niveau on charge different type de plateau de jeu
         if (value ==1){
             //generation des murs
-            walls = levelGame.getWalls("src/main/resources/Level1.txt");
+            walls = levelGame.getWalls("src/main/resources/level/Level1.txt");
             // fantômes
             ghosts = levelGame.getGhostsLevel1();
         }else if (value == 2){
             //generation des murs
 
-            walls = levelGame.getWalls("src/main/resources/Level2.txt");
+            walls = levelGame.getWalls("src/main/resources/level/Level2.txt");
             // fantômes
             ghosts = levelGame.getGhostsLevel2();
         }
@@ -109,13 +109,13 @@ public class Game {
         for(int i = 0; i<walls.length; i++) {
             switch (walls[i]) {
                 case 'W':
-                    tiles[i].setState(TileState.W);
+                    tiles[i].setState(TileState.WALL);
                     break;
                 case 'F':
-                    tiles[i].setState(TileState.F);
+                    tiles[i].setState(TileState.EXIT);
                     break;
                 case 'E':
-                    tiles[i].setState(TileState.E);
+                    tiles[i].setState(TileState.EMPTY);
             }
         }
 
@@ -185,7 +185,7 @@ public class Game {
 
         // le joueur a-t-il trouvé une sortie ?
         if (isExit(player_x, player_y)) {
-            tiles[player_y*BOARD_WIDTH + player_x].setState(TileState.E);
+            tiles[player_y*BOARD_WIDTH + player_x].setState(TileState.EMPTY);
             endGame(true);
         } else {
 
@@ -217,11 +217,11 @@ public class Game {
     }
 
     boolean isNotWall(int x, int y) {
-        return tiles[y*BOARD_WIDTH + x].getState() != TileState.W;
+        return tiles[y*BOARD_WIDTH + x].getState() != TileState.WALL;
     }
 
     boolean isExit(int x, int y) {
-        return tiles[y*BOARD_WIDTH + x].getState() == TileState.F;
+        return tiles[y*BOARD_WIDTH + x].getState() == TileState.EXIT;
     }
 
     public void animate() {
