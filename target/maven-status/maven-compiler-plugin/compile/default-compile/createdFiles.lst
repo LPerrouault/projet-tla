@@ -1,5 +1,5 @@
 game/Main.class
 game/Level.class
 game/Game.class
-game/LevelGame.class
 module-info.class
+game/LevelGame.class

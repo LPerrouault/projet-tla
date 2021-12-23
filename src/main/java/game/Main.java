@@ -9,7 +9,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class Main extends Application {
@@ -28,7 +27,7 @@ public class Main extends Application {
         menuPane.add(btnLevel1, 0, 1);
         Button btnLevel2 = new Button("level2");
         menuPane.add(btnLevel2, 0, 2);
-        ImageView imageView = new ImageView(SpritesLibrary.imgPlayerLarge);
+        ImageView imageView = new ImageView(SpritesLibrary.imgJajaLarge);
         menuPane.add(imageView, 1, 0, 1, 4);
 
         Scene scene = new Scene(menuPane);

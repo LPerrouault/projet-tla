@@ -39,6 +39,13 @@ public class Game {
     private int player_y;
     private ImageView playerNode;
 
+    //cordonnées du l'enemie
+    // coordonnées du joueur
+
+    private int enemy_x;
+    private int enemy_y;
+    private ImageView enemyNode;
+
     // fantômes
 
     private List<Ghost> ghosts;
@@ -119,21 +126,31 @@ public class Game {
             }
         }
 
-
-
-
         // position initiale du joueur
 
         player_x = 0;
         player_y = 0;
 
-        playerNode = new ImageView(SpritesLibrary.imgPlayerSmall);
+        playerNode = new ImageView(SpritesLibrary.imgJajaSmall);
         playerNode.setTranslateX(player_x * Game.TILE_SIZE - 3);
         playerNode.setTranslateY(player_y * Game.TILE_SIZE - 3);
 
         ObservableList<Node> children = pane.getChildren();
         children.add(playerNode);
         ghosts.forEach(ghost -> children.add(ghost.getNode()));
+
+//        //position initiale enemy
+//
+//        enemy_x = 17;
+//        enemy_y = 6;
+//
+//        enemyNode = new ImageView(SpritesLibrary.imgEdioSmall);
+//        enemyNode.setTranslateX(enemy_x * Game.TILE_SIZE - 3);
+//        enemyNode.setTranslateY(player_y * Game.TILE_SIZE - 3);
+//
+//        ObservableList<Node> childrenEnemy = pane.getChildren();
+//        childrenEnemy.add(enemyNode);
+//        ghosts.forEach(ghost -> children.add(ghost.getNode()));
 
         running = true;
     }

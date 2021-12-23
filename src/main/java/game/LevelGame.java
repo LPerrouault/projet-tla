@@ -8,19 +8,14 @@ public class LevelGame implements Level {
 
 
     public char[] getWalls(String fileName ) throws FileNotFoundException {
-
         String line = null;
-
         try (var scanner = new Scanner(new File(fileName))) {
-
             while (scanner.hasNext()) {
                 if (line ==null)
                     line = scanner.nextLine();
-
                 line += scanner.nextLine();
             }
         }
-
         return line.toCharArray();
     }
 
