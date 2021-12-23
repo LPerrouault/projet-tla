@@ -4,24 +4,30 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
 import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.util.Duration;
 
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-public class Game {
+public class Game<value> {
 
-    final String message = "r : redémarrer la partie / q : quitter pour le menu";
+    final String message = " R : redémarrer la partie \n"+" \n Q : pour revenir au menu";
 
     final static int TILE_SIZE = 32;
     final static int BOARD_WIDTH = 20;
     final static int BOARD_HEIGHT = 14;
+    public int value;
 
     // grille
 
@@ -85,10 +91,16 @@ public class Game {
         this.levelGame = levelGame;
     }
 
-    void start( int value) throws IOException {
+    public int getValue() {
+        return value;
+    }
 
-        label.setText(message);
+    public void setValue(int value) {
+        this.value = value;
+    }
 
+    void start(int value ) throws IOException {
+        setValue(value);
         Arrays.fill(visited, 0);
 
         pane.getChildren().clear();
@@ -139,18 +151,6 @@ public class Game {
         children.add(playerNode);
         ghosts.forEach(ghost -> children.add(ghost.getNode()));
 
-//        //position initiale enemy
-//
-//        enemy_x = 17;
-//        enemy_y = 6;
-//
-//        enemyNode = new ImageView(SpritesLibrary.imgEdioSmall);
-//        enemyNode.setTranslateX(enemy_x * Game.TILE_SIZE - 3);
-//        enemyNode.setTranslateY(player_y * Game.TILE_SIZE - 3);
-//
-//        ObservableList<Node> childrenEnemy = pane.getChildren();
-//        childrenEnemy.add(enemyNode);
-//        ghosts.forEach(ghost -> children.add(ghost.getNode()));
 
         running = true;
     }
@@ -254,11 +254,37 @@ public class Game {
     }
 
     private void endGame(Boolean success) {
+        BorderPane borderPane = new BorderPane();
+        GridPane endGame = new GridPane();
+        Label action = new Label(message);
+        action.setFont(new Font(14));
+        Label status = new Label();
+        pane.getChildren().clear();
         if (success) {
-            label.setText("GAGNE ! " + message);
+            status.setText(" Victoire ! ");
+            status.setTextFill(Color.GREEN);
+            ImageView imageJaja = new ImageView(SpritesLibrary.imgJajaLarge);
+            endGame.add(imageJaja, 1,1);
+            endGame.setMargin(imageJaja, new Insets(0,0,0,80));
         } else {
-            label.setText("PERDU ! " + message);
+            status.setText(" Défaite ! ");
+            status.setTextFill(Color.RED);
+            ImageView imageJaja = new ImageView(SpritesLibrary.imgJajaDefaite);
+            endGame.add(imageJaja, 1,1);
+            endGame.setMargin(imageJaja, new Insets(0,0,0,80));
         }
-        running = false;
+        endGame.add(status,1,0);
+        status.setFont(new Font(40));
+        endGame.add(action,1,2);
+        endGame.setMargin(status, new Insets(30,10,30,10));
+        status.setAlignment(Pos.CENTER);
+        action.setAlignment(Pos.CENTER);
+        endGame.setMargin(action, new Insets(40,10,40,10));
+        borderPane.setCenter(endGame);
+        borderPane.setMargin(endGame, new Insets(80, 0, 50, 200));
+        pane.getChildren().add(borderPane);
+
+
+        running = true;
     }
 }
