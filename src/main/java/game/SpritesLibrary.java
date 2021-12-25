@@ -13,15 +13,15 @@ permettant d'afficher les différentes formes de carreaux et les éléments mobi
 public class SpritesLibrary {
 
     static final Image imgJajaLarge = new Image(SpritesLibrary.class.getResourceAsStream("/sprites/jaja.png"), 64, 64, true, false);
-    static final Image imgEdioLarge = new Image(SpritesLibrary.class.getResourceAsStream("/sprites/jaja.png"), 64, 64, true, false);
     static final Image imgJajaSmall = new Image(SpritesLibrary.class.getResourceAsStream("/sprites/jaja.png"), Game.TILE_SIZE + 6, Game.TILE_SIZE + 6, true, false);
-    static final Image imgEdioSmall = new Image(SpritesLibrary.class.getResourceAsStream("/sprites/jaja.png"), Game.TILE_SIZE + 6, Game.TILE_SIZE + 6, true, false);
-    static final Image imgGhost = new Image(SpritesLibrary.class.getResourceAsStream("/sprites/couteau.png"), Game.TILE_SIZE - 6, Game.TILE_SIZE - 6, true, false);
+    static final Image imgJajaDefaite = new Image(SpritesLibrary.class.getResourceAsStream("/sprites/jaja_defaite.png"), Game.TILE_SIZE + 6, Game.TILE_SIZE + 6, true, false);
+    static final Image imgEdio = new Image(SpritesLibrary.class.getResourceAsStream("/sprites/edio.png"), Game.TILE_SIZE + 6, Game.TILE_SIZE + 6, true, false);
+    static final Image imgEdioCouteau = new Image(SpritesLibrary.class.getResourceAsStream("/sprites/edio_couteau.png"), Game.TILE_SIZE + 6, Game.TILE_SIZE + 6, true, false);
+    static final Image imgEdioRouleau = new Image(SpritesLibrary.class.getResourceAsStream("/sprites/edio_rouleau.png"), Game.TILE_SIZE + 6, Game.TILE_SIZE + 6, true, false);
+    /*A supprimer eventuellement*/ static final Image imgGhost = new Image(SpritesLibrary.class.getResourceAsStream("/sprites/couteau.png"), Game.TILE_SIZE - 6, Game.TILE_SIZE - 6, true, false);
     static final Image imgCouteau = new Image(SpritesLibrary.class.getResourceAsStream("/sprites/couteau.png"), Game.TILE_SIZE - 6, Game.TILE_SIZE - 6, true, false);
-    static final Image imgCouteauHaut = new Image(SpritesLibrary.class.getResourceAsStream("/sprites/couteau_haut.png"), Game.TILE_SIZE - 6, Game.TILE_SIZE - 6, true, false);
-    static final Image imgCouteauBas = new Image(SpritesLibrary.class.getResourceAsStream("/sprites/couteau_bas.png"), Game.TILE_SIZE - 6, Game.TILE_SIZE - 6, true, false);
-    static final Image imgRouleau1 = new Image(SpritesLibrary.class.getResourceAsStream("/sprites/couteau_bas.png"), Game.TILE_SIZE - 6, Game.TILE_SIZE - 6, true, false);
-    static final Image imgRoulau2 = new Image(SpritesLibrary.class.getResourceAsStream("/sprites/couteau_bas.png"), Game.TILE_SIZE - 6, Game.TILE_SIZE - 6, true, false);
+    static final Image imgRouleau1 = new Image(SpritesLibrary.class.getResourceAsStream("/sprites/rouleau1.png"), Game.TILE_SIZE - 6, Game.TILE_SIZE - 6, true, false);
+    static final Image imgRouleau2 = new Image(SpritesLibrary.class.getResourceAsStream("/sprites/rouleau2.png"), Game.TILE_SIZE - 6, Game.TILE_SIZE - 6, true, false);
     static final Image imgMur = new Image(SpritesLibrary.class.getResourceAsStream("/sprites/mur.png"), Game.TILE_SIZE, Game.TILE_SIZE, true, false);
     static final Image imgVictoire = new Image(SpritesLibrary.class.getResourceAsStream("/sprites/victoire.png"), Game.TILE_SIZE, Game.TILE_SIZE, true, false);
     static final Image imgTile = generateImage(Color.gray(0.92), Color.gray(0.96));

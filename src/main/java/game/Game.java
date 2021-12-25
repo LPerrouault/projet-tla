@@ -127,7 +127,6 @@ public class Game {
         }
 
         // position initiale du joueur
-
         player_x = 0;
         player_y = 0;
 
@@ -140,7 +139,6 @@ public class Game {
         ghosts.forEach(ghost -> children.add(ghost.getNode()));
 
 //        //position initiale enemy
-//
 //        enemy_x = 17;
 //        enemy_y = 6;
 //
@@ -257,6 +255,7 @@ public class Game {
         if (success) {
             label.setText("GAGNE ! " + message);
         } else {
+            playerNode.setImage(SpritesLibrary.imgJajaDefaite);
             label.setText("PERDU ! " + message);
         }
         running = false;
