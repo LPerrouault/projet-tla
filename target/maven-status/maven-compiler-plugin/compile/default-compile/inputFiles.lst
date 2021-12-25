@@ -4,7 +4,6 @@ C:\xamppPHP8_0_11\htdocs\projet-tla\src\main\java\game\Token.java
 C:\xamppPHP8_0_11\htdocs\projet-tla\src\main\java\game\TileState.java
 C:\xamppPHP8_0_11\htdocs\projet-tla\src\main\java\game\SourceReader.java
 C:\xamppPHP8_0_11\htdocs\projet-tla\src\main\java\game\Game.java
-C:\xamppPHP8_0_11\htdocs\projet-tla\src\main\java\game\TP3.java
 C:\xamppPHP8_0_11\htdocs\projet-tla\src\main\java\game\Main.java
 C:\xamppPHP8_0_11\htdocs\projet-tla\src\main\java\game\LexicalErrorException.java
 C:\xamppPHP8_0_11\htdocs\projet-tla\src\main\java\game\Ghost.java
@@ -15,3 +14,4 @@ C:\xamppPHP8_0_11\htdocs\projet-tla\src\main\java\game\AnalyseLexicale.java
 C:\xamppPHP8_0_11\htdocs\projet-tla\src\main\java\game\Level.java
 C:\xamppPHP8_0_11\htdocs\projet-tla\src\main\java\module-info.java
 C:\xamppPHP8_0_11\htdocs\projet-tla\src\main\java\game\TokenClass.java
+C:\xamppPHP8_0_11\htdocs\projet-tla\src\main\java\game\TestAnalyseLexicale.java

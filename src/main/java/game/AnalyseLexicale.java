@@ -80,10 +80,30 @@ public class AnalyseLexicale {
 					tokens.add(new Token(TokenClass.intVal));
                                         sr.goBack();
 				} else if (e == 102) {
-					tokens.add(new Token(TokenClass.functionName));
+                                    if (buf.equals("playerStart")) {
+                                        tokens.add(new Token(TokenClass.playerStart));
+                                    } else if (buf.equals("dioStart")) {
+                                        tokens.add(new Token(TokenClass.dioStart));
+                                    } else if (buf.equals("dioActions")) {
+                                        tokens.add(new Token(TokenClass.dioActions));
+                                    } else if (buf.equals("dioMove")) {
+                                        tokens.add(new Token(TokenClass.dioMove));
+                                    } else if (buf.equals("dioPrepare")) {
+                                        tokens.add(new Token(TokenClass.dioPrepare));
+                                    } else if (buf.equals("dioAttaque")) {
+                                        tokens.add(new Token(TokenClass.dioAttaque));
+                                    } else if (buf.equals("playerWait")) {
+                                        tokens.add(new Token(TokenClass.playerWait));
+                                    } else if (buf.equals("setWalls")) {
+                                        tokens.add(new Token(TokenClass.setWalls));
+                                    }
 				} else if (e == 103) {
-					tokens.add(new Token(TokenClass.ident));
-                                        sr.goBack();
+                                    if (buf.equals("couteau")) {
+                                        tokens.add(new Token(TokenClass.couteau));
+                                    } else if (buf.equals("rouleau")) {
+                                        tokens.add(new Token(TokenClass.rouleau));
+                                    }
+                                    sr.goBack();
 				} else if (e == 104) {
 					tokens.add(new Token(TokenClass.rightPar));
 				} else if (e == 105) {
