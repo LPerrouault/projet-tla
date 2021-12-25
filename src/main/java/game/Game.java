@@ -139,7 +139,6 @@ public class Game<value> {
         }
 
         // position initiale du joueur
-
         player_x = 0;
         player_y = 0;
 
