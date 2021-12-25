@@ -45,12 +45,15 @@ public class Game<value> {
     private int player_y;
     private ImageView playerNode;
 
-    //cordonnées du l'enemie
-    // coordonnées du joueur
+    //cordonnées de edio
 
-    private int enemy_x;
-    private int enemy_y;
-    private ImageView enemyNode;
+    private int edio_x;
+    private int edio_y;
+    private ImageView edioNode;
+
+    // edio
+
+    private List<Edio> edio;
 
     // fantômes
 
@@ -111,12 +114,13 @@ public class Game<value> {
             }
         }
         char[] walls = null;
-        //choiw du niveau on charge different type de plateau de jeu
+        //choix du niveau on charge different type de plateau de jeu
         if (value ==1){
             //generation des murs
             walls = levelGame.getWalls("src/main/resources/level/Level1.txt");
             // fantômes
             ghosts = levelGame.getGhostsLevel1();
+            edio = levelGame.randomMove();
         }else if (value == 2){
             //generation des murs
 
@@ -135,6 +139,10 @@ public class Game<value> {
                     break;
                 case 'E':
                     tiles[i].setState(TileState.EMPTY);
+                    break;
+//                case 'D':
+//                    tiles[i].setState(TileState.ZONEENEMY);
+//                    break;
             }
         }
 
@@ -148,6 +156,7 @@ public class Game<value> {
 
         ObservableList<Node> children = pane.getChildren();
         children.add(playerNode);
+        edio.forEach(edio1 -> children.add(edio1.getNode()));
         ghosts.forEach(ghost -> children.add(ghost.getNode()));
 
 
@@ -242,8 +251,12 @@ public class Game<value> {
 
     public void animate() {
         if (running) {
+            edio.forEach(edio1 -> {
+                edio1.nextMove();
+            });
             ghosts.forEach(ghost -> {
                 ghost.nextMove();
+
                 // fin de jeu si un fantome vient toucher le joueur
                 if (ghost.getX() == player_x && ghost.getY() == player_y) {
                     endGame(false);

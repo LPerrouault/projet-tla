@@ -1,5 +1,8 @@
 package game;
 
+import game.action.EdioAction;
+import game.action.GhostAction;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -17,6 +20,28 @@ public class LevelGame implements Level {
             }
         }
         return line.toCharArray();
+    }
+
+    public ArrayList<Edio>  randomMove(){
+        ArrayList<Edio> edios = new ArrayList<>();
+        int randNb = 1;
+        ArrayList<EdioAction> edioAction = new ArrayList<>();
+
+        for (int i=0; i<=3; i++){
+            randNb = (int) (Math.random()*2)+1;
+            System.out.println(randNb);
+            if (randNb == 2)
+            edioAction.add(EdioAction.TOP);
+            else
+                edioAction.add(EdioAction.DOWN);
+        }
+
+        EdioAction[] action = new EdioAction[edioAction.size()];
+        for (int i=0; i<edioAction.size(); i++){
+            action[i] = edioAction.get(i);
+        }
+        edios.add( new Edio(5,1, action));
+        return edios;
     }
 
     public ArrayList<Ghost> getGhostsLevel1() {

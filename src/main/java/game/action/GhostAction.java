@@ -1,4 +1,4 @@
-package game;
+package game.action;
 
 /*
 Enumération des actions possibles d'un fantôme

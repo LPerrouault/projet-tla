@@ -27,6 +27,7 @@ public class SpritesLibrary {
     static final Image imgRouleau1 = new Image(SpritesLibrary.class.getResourceAsStream("/sprites/rouleau1.png"), Game.TILE_SIZE - 6, Game.TILE_SIZE - 6, true, false);
     static final Image imgRouleau2 = new Image(SpritesLibrary.class.getResourceAsStream("/sprites/rouleau2.png"), Game.TILE_SIZE - 6, Game.TILE_SIZE - 6, true, false);
     static final Image imgMur = new Image(SpritesLibrary.class.getResourceAsStream("/sprites/mur.png"), Game.TILE_SIZE, Game.TILE_SIZE, true, false);
+    static final Image imgZoneEnemi = new Image(SpritesLibrary.class.getResourceAsStream("/sprites/ennemi.png"), Game.TILE_SIZE, Game.TILE_SIZE, true, false);
     static final Image imgVictoire = new Image(SpritesLibrary.class.getResourceAsStream("/sprites/victoire.png"), Game.TILE_SIZE, Game.TILE_SIZE, true, false);
     static final Image imgTile = generateImage(Color.gray(0.92), Color.gray(0.96));
 

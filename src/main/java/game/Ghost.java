@@ -1,5 +1,6 @@
 package game;
 
+import game.action.GhostAction;
 import javafx.animation.TranslateTransition;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
