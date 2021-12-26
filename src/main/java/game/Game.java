@@ -20,6 +20,8 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
+import static java.lang.Thread.sleep;
+
 public class Game<value> {
 
     final String message = " R : redémarrer la partie \n"+" \n Q : pour revenir au menu";
@@ -45,16 +47,9 @@ public class Game<value> {
     private int player_y;
     private ImageView playerNode;
 
-    //cordonnées de edio
-
-    private int edio_x;
-    private int edio_y;
-    private ImageView edioNode;
-
     // edio
 
     private List<Edio> edio;
-
 
     // Ennemies
 
@@ -122,15 +117,10 @@ public class Game<value> {
             // edio
             edio = levelGame.getEdioLevel1();
             //couteau et rouleau
-            ennemis = levelGame.getEnnemieLevel1(edio.get(0));
+            ennemis = levelGame.getEnnemieLevel1();
+            System.out.println(ennemis);
 
-            edio.forEach(edio1 -> {
-                System.out.println(edio1.toString());
-            });
 
-            ennemis.forEach(ennemi -> {
-                System.out.println(ennemi.toString());
-            });
         }else if (value == 2){
             //generation des murs
 
@@ -167,9 +157,16 @@ public class Game<value> {
         children.add(playerNode);
         edio.forEach(edio1 -> children.add(edio1.getNode()));
 
-        ennemis.forEach(ennemi -> children.add(ennemi.getNodeCouteau()));
-//        ennemis.forEach(ennemi -> children.add(ennemi.getNodeRouleau1()));
-//        ennemis.forEach(ennemi -> children.add(ennemi.getNodeRouleau2()));
+//        children.add(ennemis.get(0).getNodeCouteau1());
+//        children.add(ennemis.get(0).getNodeCouteau2());
+//        children.add(ennemis.get(0).getNodeCouteau3());
+
+
+        ennemis.forEach(ennemiL -> children.add(ennemiL.getNodeCouteau1()));
+        ennemis.forEach(ennemiL -> children.add(ennemiL.getNodeCouteau2()));
+        ennemis.forEach(ennemiL -> children.add(ennemiL.getNodeCouteau3()));
+        ennemis.forEach(ennemi -> children.add(ennemi.getNodeRouleau1()));
+        ennemis.forEach(ennemi -> children.add(ennemi.getNodeRouleau2()));
 
 
         running = true;
@@ -223,8 +220,8 @@ public class Game<value> {
         } else {
 
             // test collision avec fantome
-            ennemis.forEach(ennemis -> {
-                if (ennemis.getX() == player_x && ennemis.getY() == player_y) {
+            ennemis.forEach(ennemi -> {
+                if (ennemi.getInit_x() == player_x && ennemi.getInit_x() == player_y) {
                     endGame(false);
                 }
             });
@@ -264,19 +261,14 @@ public class Game<value> {
                 edio1.nextMove();
             });
 
-            ennemis.forEach(ennemi ->{
-                        Timeline timeline = new Timeline(
-                                new KeyFrame(
-                                        Duration.millis(3000),
-                                        actionEvent -> { ennemi.nextMove();
-                                        }
-                                )
-                        );
-                        timeline.setCycleCount(Animation.INDEFINITE);
-                        timeline.play();
-                    }
-                    );
+            ennemis.forEach(ennemi -> {
+                System.out.println(ennemi);
+                ennemi.nextMove();
+                if (ennemi.getX() == player_x && ennemi.getY() == player_y) {
+                    endGame(false);
+                }
 
+            });
 
         }
     }

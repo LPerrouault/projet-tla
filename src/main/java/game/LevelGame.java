@@ -60,31 +60,30 @@ public class LevelGame implements Level {
                         EdioAction.TOP,
                         EdioAction.DOWN,
                         EdioAction.DOWN,
-                        EdioAction.DOWN
+                        EdioAction.DOWN,
+                        EdioAction.TOP,
+                        EdioAction.TOP
                 }
         );
         edios.add(edio);
         return edios;
     }
 
-    public ArrayList<Ennemi> getEnnemieLevel1(Edio edio){
+    public ArrayList<Ennemi> getEnnemieLevel1(){
         ArrayList<Ennemi> ennemis = new ArrayList<>();
-        ArrayList<Integer> eduiSequence = edio.getTabSequence();
         ennemis.add(new Ennemi(7,getEdioLevel1().get(0) ,new EnnemiAction[]{
+                EnnemiAction.FORWARD_ROULEAU,
+        }));
+        ennemis.add(new Ennemi(3,getEdioLevel1().get(0) ,new EnnemiAction[]{
                 EnnemiAction.FORWARD_COUTEAU,
         }));
-        ennemis.add(new Ennemi(3,getEdioLevel1().get(0)  ,new EnnemiAction[]{
-                EnnemiAction.FORWARD_COUTEAU
-        }));
-        ennemis.add(new Ennemi(6, getEdioLevel1().get(0) ,new EnnemiAction[]{
-                EnnemiAction.FORWARD_COUTEAU
-        }));
-        ennemis.add(new Ennemi(8,getEdioLevel1().get(0)  ,new EnnemiAction[]{
-                EnnemiAction.FORWARD_COUTEAU
-        }));
-        ennemis.add(new Ennemi(4,getEdioLevel1().get(0)  ,new EnnemiAction[]{
-                EnnemiAction.FORWARD_COUTEAU
-        }));
+//        ennemis.add(new Ennemi(7,getEdioLevel1().get(0) ,new EnnemiAction[]{
+//                EnnemiAction.FORWARD_COUTEAU,
+//        }));
+//        ennemis.add(new Ennemi(6,getEdioLevel1().get(0) ,new EnnemiAction[]{
+//                EnnemiAction.FORWARD_COUTEAU,
+//        }));
+
         return ennemis;
     }
 
