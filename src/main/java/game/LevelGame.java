@@ -1,6 +1,7 @@
 package game;
 
 import game.action.EdioAction;
+import game.action.EnnemiAction;
 import game.action.GhostAction;
 
 import java.io.*;
@@ -22,7 +23,8 @@ public class LevelGame implements Level {
         return line.toCharArray();
     }
 
-    public ArrayList<Edio>  randomMove(){
+    // mouvemant  de edio
+    public ArrayList<Edio> edioRandomMove(){
         ArrayList<Edio> edios = new ArrayList<>();
         int randNb = 1;
         ArrayList<EdioAction> edioAction = new ArrayList<>();
@@ -44,136 +46,51 @@ public class LevelGame implements Level {
         return edios;
     }
 
-    public ArrayList<Ghost> getGhostsLevel1() {
-        ArrayList<Ghost> ghosts = new ArrayList<>();
-        ghosts.add(
-                new Ghost(
-                        6,
-                        4,
-                        1,
-                        new GhostAction[]{
-                                GhostAction.FORWARD,
-                                GhostAction.FORWARD,
-                                GhostAction.FORWARD,
-                                GhostAction.FORWARD,
-                                GhostAction.TURN_RIGHT,
-                                GhostAction.FORWARD,
-                                GhostAction.FORWARD,
-                                GhostAction.TURN_RIGHT,
-                                GhostAction.FORWARD,
-                                GhostAction.FORWARD,
-                                GhostAction.FORWARD,
-                                GhostAction.FORWARD,
-                                GhostAction.TURN_RIGHT,
-                                GhostAction.FORWARD,
-                                GhostAction.FORWARD,
-                                GhostAction.TURN_RIGHT
-                        }
-                )
+    public ArrayList<Edio> getEdioLevel1() {
+        ArrayList<Edio> edios = new ArrayList<>();
+        Edio edio = new Edio(
+                5,
+                1,
+                new EdioAction[]{
+                        EdioAction.DOWN,
+                        EdioAction.DOWN,
+                        EdioAction.TOP,
+                        EdioAction.TOP,
+                        EdioAction.TOP,
+                        EdioAction.TOP,
+                        EdioAction.DOWN,
+                        EdioAction.DOWN,
+                        EdioAction.DOWN
+                }
         );
+        edios.add(edio);
+        return edios;
+    }
 
-        ghosts.add(
-                new Ghost(
-                        1,
-                        4,
-                        1,
-                        new GhostAction[]{
-                                GhostAction.FORWARD,
-                                GhostAction.FORWARD,
-                                GhostAction.FORWARD,
-                                GhostAction.REINIT
-                        }
-                )
-        );
-
-        ghosts.add(
-                new Ghost(
-                        19,
-                        2,
-                        2,
-                        new GhostAction[]{
-                                GhostAction.FORWARD,
-                                GhostAction.FORWARD,
-                                GhostAction.FORWARD,
-                                GhostAction.REINIT
-                        }
-                )
-        );
-
-        ghosts.add(
-                new Ghost(
-                        5,
-                        12,
-                        1,
-                        new GhostAction[]{
-                                GhostAction.FORWARD,
-                                GhostAction.FORWARD,
-                                GhostAction.FORWARD,
-                                GhostAction.TURN_LEFT,
-                                GhostAction.FORWARD,
-                                GhostAction.FORWARD,
-                                GhostAction.REINIT
-                        }
-                )
-        );
-        return ghosts;
+    public ArrayList<Ennemi> getEnnemieLevel1(Edio edio){
+        ArrayList<Ennemi> ennemis = new ArrayList<>();
+        ArrayList<Integer> eduiSequence = edio.getTabSequence();
+        ennemis.add(new Ennemi(7,getEdioLevel1().get(0) ,new EnnemiAction[]{
+                EnnemiAction.FORWARD_COUTEAU,
+        }));
+        ennemis.add(new Ennemi(3,getEdioLevel1().get(0)  ,new EnnemiAction[]{
+                EnnemiAction.FORWARD_COUTEAU
+        }));
+        ennemis.add(new Ennemi(6, getEdioLevel1().get(0) ,new EnnemiAction[]{
+                EnnemiAction.FORWARD_COUTEAU
+        }));
+        ennemis.add(new Ennemi(8,getEdioLevel1().get(0)  ,new EnnemiAction[]{
+                EnnemiAction.FORWARD_COUTEAU
+        }));
+        ennemis.add(new Ennemi(4,getEdioLevel1().get(0)  ,new EnnemiAction[]{
+                EnnemiAction.FORWARD_COUTEAU
+        }));
+        return ennemis;
     }
 
     public ArrayList<Ghost> getGhostsLevel2() {
         ArrayList<Ghost> ghosts = new ArrayList<>();
-        ghosts.add(
-                new Ghost(
-                        6,
-                        4,
-                        1,
-                        new GhostAction[]{
-                                GhostAction.FORWARD,
-                                GhostAction.FORWARD,
-                                GhostAction.FORWARD,
-                                GhostAction.FORWARD,
-                                GhostAction.TURN_RIGHT,
-                                GhostAction.FORWARD,
-                                GhostAction.FORWARD,
-                                GhostAction.TURN_RIGHT,
-                                GhostAction.FORWARD,
-                                GhostAction.FORWARD,
-                                GhostAction.FORWARD,
-                                GhostAction.FORWARD,
-                                GhostAction.TURN_RIGHT,
-                                GhostAction.FORWARD,
-                                GhostAction.FORWARD,
-                                GhostAction.TURN_RIGHT
-                        }
-                )
-        );
 
-        ghosts.add(
-                new Ghost(
-                        1,
-                        4,
-                        1,
-                        new GhostAction[]{
-                                GhostAction.FORWARD,
-                                GhostAction.FORWARD,
-                                GhostAction.FORWARD,
-                                GhostAction.REINIT
-                        }
-                )
-        );
-
-        ghosts.add(
-                new Ghost(
-                        19,
-                        2,
-                        2,
-                        new GhostAction[]{
-                                GhostAction.FORWARD,
-                                GhostAction.FORWARD,
-                                GhostAction.FORWARD,
-                                GhostAction.REINIT
-                        }
-                )
-        );
         return ghosts;
     }
 

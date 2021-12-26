@@ -1,9 +1,9 @@
 package game;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.animation.TranslateTransition;
+import game.action.EnnemiAction;
+import javafx.animation.*;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -55,9 +55,10 @@ public class Game<value> {
 
     private List<Edio> edio;
 
-    // fantômes
 
-    private List<Ghost> ghosts;
+    // Ennemies
+
+    private List<Ennemi> ennemis;
 
     // éléments de l'interface utilisateur
     private Label label;
@@ -118,15 +119,23 @@ public class Game<value> {
         if (value ==1){
             //generation des murs
             walls = levelGame.getWalls("src/main/resources/level/Level1.txt");
-            // fantômes
-            ghosts = levelGame.getGhostsLevel1();
-            edio = levelGame.randomMove();
+            // edio
+            edio = levelGame.getEdioLevel1();
+            //couteau et rouleau
+            ennemis = levelGame.getEnnemieLevel1(edio.get(0));
+
+            edio.forEach(edio1 -> {
+                System.out.println(edio1.toString());
+            });
+
+            ennemis.forEach(ennemi -> {
+                System.out.println(ennemi.toString());
+            });
         }else if (value == 2){
             //generation des murs
 
             walls = levelGame.getWalls("src/main/resources/level/Level2.txt");
             // fantômes
-            ghosts = levelGame.getGhostsLevel2();
         }
 
         for(int i = 0; i<walls.length; i++) {
@@ -140,9 +149,9 @@ public class Game<value> {
                 case 'E':
                     tiles[i].setState(TileState.EMPTY);
                     break;
-//                case 'D':
-//                    tiles[i].setState(TileState.ZONEENEMY);
-//                    break;
+                case 'D':
+                    tiles[i].setState(TileState.ZONEENEMY);
+                    break;
             }
         }
 
@@ -157,7 +166,10 @@ public class Game<value> {
         ObservableList<Node> children = pane.getChildren();
         children.add(playerNode);
         edio.forEach(edio1 -> children.add(edio1.getNode()));
-        ghosts.forEach(ghost -> children.add(ghost.getNode()));
+
+        ennemis.forEach(ennemi -> children.add(ennemi.getNodeCouteau()));
+//        ennemis.forEach(ennemi -> children.add(ennemi.getNodeRouleau1()));
+//        ennemis.forEach(ennemi -> children.add(ennemi.getNodeRouleau2()));
 
 
         running = true;
@@ -194,7 +206,6 @@ public class Game<value> {
 
     void playerRefresh() {
 
-        // déplacement de l'élément graphique du joueur
 
         // déplacement avec transition visuelle
         TranslateTransition transition = new TranslateTransition();
@@ -204,9 +215,6 @@ public class Game<value> {
         transition.setDuration(Duration.millis(80));
         transition.play();
 
-        // déplacement sans transition visuelle
-        // playerNode.setTranslateX(player_x * Game.TILE_SIZE - 3);
-        // playerNode.setTranslateY(player_y * Game.TILE_SIZE - 3);
 
         // le joueur a-t-il trouvé une sortie ?
         if (isExit(player_x, player_y)) {
@@ -215,8 +223,8 @@ public class Game<value> {
         } else {
 
             // test collision avec fantome
-            ghosts.forEach(ghost -> {
-                if (ghost.getX() == player_x && ghost.getY() == player_y) {
+            ennemis.forEach(ennemis -> {
+                if (ennemis.getX() == player_x && ennemis.getY() == player_y) {
                     endGame(false);
                 }
             });
@@ -251,17 +259,25 @@ public class Game<value> {
 
     public void animate() {
         if (running) {
+
             edio.forEach(edio1 -> {
                 edio1.nextMove();
             });
-            ghosts.forEach(ghost -> {
-                ghost.nextMove();
 
-                // fin de jeu si un fantome vient toucher le joueur
-                if (ghost.getX() == player_x && ghost.getY() == player_y) {
-                    endGame(false);
-                }
-            });
+            ennemis.forEach(ennemi ->{
+                        Timeline timeline = new Timeline(
+                                new KeyFrame(
+                                        Duration.millis(3000),
+                                        actionEvent -> { ennemi.nextMove();
+                                        }
+                                )
+                        );
+                        timeline.setCycleCount(Animation.INDEFINITE);
+                        timeline.play();
+                    }
+                    );
+
+
         }
     }
 

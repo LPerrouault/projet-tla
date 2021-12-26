@@ -44,7 +44,7 @@ public class Ghost {
 
         index = 0;
 
-        imageView = new ImageView(SpritesLibrary.imgGhost);
+        //imageView = new ImageView(SpritesLibrary.imgGhost);
         imageView.setViewOrder(10);
         translate(x, y);
 

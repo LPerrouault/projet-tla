@@ -40,7 +40,7 @@ public class Tile {
                 break;
             case ZONEENEMY:
                 imageView.setImage(SpritesLibrary.imgZoneEnemi);
-                imageView.setViewOrder(0);
+                imageView.setViewOrder(20);
                 break;
         }
     }

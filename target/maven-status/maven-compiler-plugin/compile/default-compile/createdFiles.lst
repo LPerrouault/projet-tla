@@ -1,8 +1,12 @@
 game/Edio$1.class
-game/EdioAction.class
+game/action/EnnemiAction.class
 game/TestAnalyseLexicale.class
 module-info.class
+game/Ennemi.class
 game/Edio.class
+game/Ennemi$1.class
+game/action/GhostAction.class
+game/action/EdioAction.class
 game/IllegalCharacterException.class
 game/AnalyseLexicale.class
 game/LexicalErrorException.class

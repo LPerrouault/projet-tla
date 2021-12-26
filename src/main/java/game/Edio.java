@@ -5,6 +5,10 @@ import javafx.animation.TranslateTransition;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Random;
+
 public class Edio {
     // coordonnées et orientation initiales
     private int init_x;
@@ -19,6 +23,9 @@ public class Edio {
 
     // index dans la séquence de mouvement
     private int indexMouvement;
+
+    // stockage du parcour de la sequence
+    public ArrayList<Integer> tabSequence;
 
     // index dans la séquence d'action
     private int indexAction;
@@ -39,8 +46,10 @@ public class Edio {
         this.init_orientation = orientation;
 
         this.y = y;
+        setX(19);
         this.orientation = orientation;
         this.action = action;
+        tabSequence = new ArrayList<Integer>();
 
         this.sequence = sequence;
         indexMouvement = 0;
@@ -60,6 +69,7 @@ public class Edio {
         imageEdio.setTranslateY(y * Game.TILE_SIZE + 3);
     }
 
+
     void nextMove() {
         boolean has_moved = false;
         do {
@@ -67,6 +77,7 @@ public class Edio {
             indexMouvement = (indexMouvement + 1) % sequence.length;
         } while (!has_moved);
     }
+
 
     private boolean nextStepMouvement() {
 
@@ -76,6 +87,7 @@ public class Edio {
             case TOP:
                 if (y > 0) y = y - 1;
                 orientation = 1;
+                setAddListSequence(y);
                 has_moved = true;
                 smoothTranslate(x, y);
                 break;
@@ -83,14 +95,17 @@ public class Edio {
             case DOWN:
               if (y < Game.BOARD_HEIGHT - 1) y = y + 1;
                 orientation = orientation - 1;
+                setAddListSequence(y);
                 has_moved = true;
                 smoothTranslate(x, y);
+                break;
+
+            case STOP:
+                has_moved = false;
                 break;
         }
         return has_moved;
     }
-
-
 
     private void smoothTranslate(int x, int y) {
         TranslateTransition transition = new TranslateTransition();
@@ -101,16 +116,45 @@ public class Edio {
         transition.play();
     }
 
-    int getX() {
+    public int getX() {
         return x;
     }
 
-    int getY() {
+    public int getY() {
         return y;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
     }
 
     javafx.scene.Node getNode() {
         return imageEdio;
     }
 
+    public void setAddListSequence(Integer integer) {
+        tabSequence.add(integer);
+    }
+
+    public ArrayList<Integer> getTabSequence() {
+        return tabSequence;
+    }
+
+    @Override
+    public String toString() {
+        return "Edio{" +
+                "x=" + x +
+                ", y=" + y +
+                ", orientation=" + orientation +
+                ", tabSequence=" + tabSequence +
+                ", sequence=" + Arrays.toString(sequence) +
+                ", imageEdio=" + imageEdio +
+                ", imageCouteau=" + imageCouteau +
+                ", imageRouleau=" + imageRouleau +
+                '}';
+    }
 }
