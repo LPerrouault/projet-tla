@@ -37,8 +37,9 @@ public class Obstacle {
         imageList.add(imageCouteau);    //typeE = 0
         imageList.add(imageRouleau1);   //typeE = 1
         imageList.add(imageRouleau2);   //typeE = 2
-        this.imageView = imageList.get(typeE);
+        this.imageView = imageList.get(typeE);  //L'image change en fonction du type
 
+        //Les obstacles sont visibles par dessus toutes les autres images
         imageView.setViewOrder(0);
         translate(x, y);
 
@@ -61,8 +62,8 @@ public class Obstacle {
     private boolean nextStep() {
 
         boolean has_moved = false;
-        if (x > -1) {
-            x = x - 1;
+        if (x > -1) {   //L'obstacle peut se déplacer jusqu'à la case -1
+            x = x - 1;  //L'obstacle se déplace d'une case à gauche
         }
         has_moved = true;
         smoothTranslate(x, y);

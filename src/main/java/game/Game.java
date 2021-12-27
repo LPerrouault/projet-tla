@@ -23,7 +23,7 @@ import java.util.List;
 
 public class Game<value> {
 
-    final String message = " R : redémarrer la partie \n"+" \n Q : pour revenir au menu";
+    final String message = " R : redémarrer la partie \n" + " \n Q : pour revenir au menu";
 
     final static int TILE_SIZE = 32;
     final static int BOARD_WIDTH = 20;
@@ -31,30 +31,22 @@ public class Game<value> {
     public int value;
 
     // grille
-
     protected Tile tiles[] = new Tile[BOARD_WIDTH * BOARD_HEIGHT];
 
     // détermine si un carreau a été parcouru par le joueur,
     // pour produire des effets "cachés" lorsque le joueur se déplace
     // par exemple changer la visibilité de certains murs
-
     protected int visited[] = new int[BOARD_WIDTH * BOARD_HEIGHT];
 
-    // coordonnées du joueur
-
+    //Coordonnées du joueur
     private int player_x;
     private int player_y;
     private ImageView playerNode;
 
-    //cordonnées du l'enemie
-    // coordonnées du joueur
+    //Affichage de Edio
+    private Edio edio;
 
-    private int enemy_x;
-    private int enemy_y;
-    private ImageView enemyNode;
-
-    // fantômes
-
+    //Affichage des obstacles créés par Edio
     private List<Obstacle> obstacles;
     private boolean listObstacle = true;
 
@@ -62,10 +54,10 @@ public class Game<value> {
     private Label label;
     private Pane pane;
 
-    // booléen jeu en cours ou terminé
+    // Jeu en cours ou terminé
     private boolean running;
 
-    // niveau en cours
+    // Niveau en cours
     LevelGame levelGame;
 
     Game(BorderPane borderPane) {
@@ -80,6 +72,7 @@ public class Game<value> {
         borderPane.setBottom(label);
 
         Timeline timeline = new Timeline(
+                //A chaque KeyFrame, lance la fonction animate()
                 new KeyFrame(
                         Duration.millis(500),
                         event -> animate()
@@ -101,40 +94,42 @@ public class Game<value> {
         this.value = value;
     }
 
-    void start(int value ) throws IOException {
+    void start(int value) throws IOException {
         setValue(value);
         Arrays.fill(visited, 0);
 
         pane.getChildren().clear();
 
-        for(int y = 0; y < BOARD_HEIGHT; y++) {
-            for(int x = 0; x < BOARD_WIDTH; x++) {
-                tiles[y*BOARD_WIDTH + x] = new Tile(x, y, pane);
+        for (int y = 0; y < BOARD_HEIGHT; y++) {
+            for (int x = 0; x < BOARD_WIDTH; x++) {
+                tiles[y * BOARD_WIDTH + x] = new Tile(x, y, pane);
             }
         }
         char[] walls = null;
-        //choiw du niveau on charge different type de plateau de jeu
-        if (value ==1){
-            //generation des murs
+        //Choix du niveau
+        if (value == 1) {
+            //Génération des murs
             walls = levelGame.getWalls("src/main/resources/level/Level1.txt");
-            // fantômes
+            //Génération des obstacles
             obstacles = levelGame.getObstaclesLevel1();
             System.out.println(obstacles);
-        }else if (value == 2){
-            //generation des murs
-
+        } else if (value == 2) {
+            //Génération des murs
             walls = levelGame.getWalls("src/main/resources/level/Level2.txt");
-            // fantômes
+            //Génération des obstacles
             obstacles = levelGame.getObstaclesLevel2();
         }
 
-        for(int i = 0; i<walls.length; i++) {
+        for (int i = 0; i < walls.length; i++) {
             switch (walls[i]) {
                 case 'W':
                     tiles[i].setState(TileState.WALL);
                     break;
                 case 'F':
                     tiles[i].setState(TileState.EXIT);
+                    break;
+                case 'D':
+                    tiles[i].setState(TileState.DIO);
                     break;
                 case 'E':
                     tiles[i].setState(TileState.EMPTY);
@@ -152,7 +147,6 @@ public class Game<value> {
         ObservableList<Node> children = pane.getChildren();
         children.add(playerNode);
         obstacles.forEach(ghost -> children.add(ghost.getNode()));
-        
 
         running = true;
     }
@@ -162,25 +156,28 @@ public class Game<value> {
     }
 
     void left() {
-        if (running && player_x>0 && isNotWall(player_x - 1, player_y)) {
+        if (running && player_x > 0 && isNotWall(player_x - 1, player_y)) {
             player_x--;
             playerRefresh();
         }
     }
+
     void right() {
-        if (running && player_x<BOARD_WIDTH-1 && isNotWall(player_x + 1, player_y)) {
+        if (running && player_x < BOARD_WIDTH - 1 && isNotWall(player_x + 1, player_y)) {
             player_x++;
             playerRefresh();
         }
     }
+
     void up() {
-        if (running && player_y>0 && isNotWall(player_x, player_y - 1)) {
+        if (running && player_y > 0 && isNotWall(player_x, player_y - 1)) {
             player_y--;
             playerRefresh();
         }
     }
+
     void down() {
-        if (running && player_y<BOARD_HEIGHT-1 && isNotWall(player_x, player_y + 1)) {
+        if (running && player_y < BOARD_HEIGHT - 1 && isNotWall(player_x, player_y + 1)) {
             player_y++;
             playerRefresh();
         }
@@ -189,7 +186,6 @@ public class Game<value> {
     void playerRefresh() {
 
         // déplacement de l'élément graphique du joueur
-
         // déplacement avec transition visuelle
         TranslateTransition transition = new TranslateTransition();
         transition.setNode(playerNode);
@@ -201,10 +197,9 @@ public class Game<value> {
         // déplacement sans transition visuelle
         // playerNode.setTranslateX(player_x * Game.TILE_SIZE - 3);
         // playerNode.setTranslateY(player_y * Game.TILE_SIZE - 3);
-
         // le joueur a-t-il trouvé une sortie ?
         if (isExit(player_x, player_y)) {
-            tiles[player_y*BOARD_WIDTH + player_x].setState(TileState.EMPTY);
+            tiles[player_y * BOARD_WIDTH + player_x].setState(TileState.EMPTY);
             endGame(true);
         } else {
 
@@ -216,10 +211,12 @@ public class Game<value> {
             });
 
             // Mise à jour de visited
-            int value = visited[player_y*BOARD_WIDTH + player_x] + 1;
-            if (value > 2) value = 1;
+            int value = visited[player_y * BOARD_WIDTH + player_x] + 1;
+            if (value > 2) {
+                value = 1;
+            }
 
-            visited[player_y*BOARD_WIDTH + player_x] = value;
+            visited[player_y * BOARD_WIDTH + player_x] = value;
 
             // Mise à jour de la visibilité des murs
             levelGame.adjustWalls(this);
@@ -228,19 +225,19 @@ public class Game<value> {
     }
 
     Tile getTile(int x, int y) {
-        return tiles[y*BOARD_WIDTH + x];
+        return tiles[y * BOARD_WIDTH + x];
     }
 
     int isVisited(int x, int y) {
-        return visited[y*BOARD_WIDTH + x];
+        return visited[y * BOARD_WIDTH + x];
     }
 
     boolean isNotWall(int x, int y) {
-        return tiles[y*BOARD_WIDTH + x].getState() != TileState.WALL;
+        return tiles[y * BOARD_WIDTH + x].getState() != TileState.WALL;
     }
 
     boolean isExit(int x, int y) {
-        return tiles[y*BOARD_WIDTH + x].getState() == TileState.EXIT;
+        return tiles[y * BOARD_WIDTH + x].getState() == TileState.EXIT;
     }
 
     public void animate() {
@@ -249,26 +246,23 @@ public class Game<value> {
             if (listObstacle == true) {
                 ArrayList<Integer> comp = new ArrayList<Integer>();
                 System.out.println(comp);
-                    obstacles.forEach(obstacle -> {
-                        if (obstacle.getX() == -1) {
-                            comp.add(-1);
-                            if (comp.size() == obstacles.size()){
-                                System.out.println("stop ");
-                                listObstacle = false;
-                                return;
-                            }
-
-                        } else {
-                            obstacle.nextMove();
-                            // fin de jeu si un obstacle de vient toucher le joueur
-                            if (obstacle.getX() == player_x && obstacle.getY() == player_y) {
-                                endGame(false);
-                                System.out.println("stop: obstacle detecté");
-                            }
+                obstacles.forEach(obstacle -> {
+                    if (obstacle.getX() == -1) {
+                        comp.add(-1);
+                        if (comp.size() == obstacles.size()) {
+                            listObstacle = false;
+                            return;
                         }
-                    });
-            }
-            else {
+
+                    } else {
+                        obstacle.nextMove();
+                        // fin de jeu si un obstacle de vient toucher le joueur
+                        if (obstacle.getX() == player_x && obstacle.getY() == player_y) {
+                            endGame(false);
+                        }
+                    }
+                });
+            } else {
                 obstacles.removeAll(obstacles);
             }
         }
@@ -285,26 +279,25 @@ public class Game<value> {
             status.setText(" Victoire ! ");
             status.setTextFill(Color.GREEN);
             ImageView imageJaja = new ImageView(SpritesLibrary.imgJajaLarge);
-            endGame.add(imageJaja, 1,1);
-            endGame.setMargin(imageJaja, new Insets(0,0,0,80));
+            endGame.add(imageJaja, 1, 1);
+            endGame.setMargin(imageJaja, new Insets(0, 0, 0, 80));
         } else {
             status.setText(" Défaite ! ");
             status.setTextFill(Color.RED);
             ImageView imageJaja = new ImageView(SpritesLibrary.imgJajaDefaite);
-            endGame.add(imageJaja, 1,1);
-            endGame.setMargin(imageJaja, new Insets(0,0,0,80));
+            endGame.add(imageJaja, 1, 1);
+            endGame.setMargin(imageJaja, new Insets(0, 0, 0, 80));
         }
-        endGame.add(status,1,0);
+        endGame.add(status, 1, 0);
         status.setFont(new Font(40));
-        endGame.add(action,1,2);
-        endGame.setMargin(status, new Insets(30,10,30,10));
+        endGame.add(action, 1, 2);
+        endGame.setMargin(status, new Insets(30, 10, 30, 10));
         status.setAlignment(Pos.CENTER);
         action.setAlignment(Pos.CENTER);
-        endGame.setMargin(action, new Insets(40,10,40,10));
+        endGame.setMargin(action, new Insets(40, 10, 40, 10));
         borderPane.setCenter(endGame);
         borderPane.setMargin(endGame, new Insets(80, 0, 50, 200));
         pane.getChildren().add(borderPane);
-
 
         running = false;
     }
