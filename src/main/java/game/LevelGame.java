@@ -21,15 +21,21 @@ public class LevelGame implements Level {
                     line = scanner.nextLine();
                 line += scanner.nextLine();
             }
+            line = line.replace("setWalls","");
+            line = line.replace("(","");
+            line = line.replace(")","");
+            line = line.replace(" ","");
+
         }
         return line.toCharArray();
     }
 
-    public void setWalls(String level){
-        File file = new File("src/main/resources/level/level.txt");
+    public void setWalls(int value, String level ){
+        String filneme = "level"+value+".txt";
+        File file = new File("src/main/resources/level/"+filneme);
 
             try {
-                FileWriter fw =  new FileWriter(file.getAbsoluteFile());
+                FileWriter fw =  new FileWriter(file.getName());
                 BufferedWriter bw = new BufferedWriter(fw);
                 bw.write(level);
                 bw.close();

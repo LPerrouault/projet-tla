@@ -115,47 +115,18 @@ public class Game<value> {
         char[] walls = null;
         //choiw du niveau on charge different type de plateau de jeu
         if (value ==1){
-            //création des murs
-            createWall("EEEEEWEEEEEEEWEEEEWW\n" +
-                    "WWWWEWEWWWWWEWEWWWWD\n" +
-                    "EEEEEWEEEWEWEWEEEEWD\n" +
-                    "EWWWWWWWEWEWEWWEWEWD\n" +
-                    "EEEEEEEWEWEWEEEEWEWD\n" +
-                    "WWWWWWEWEWEWWWWWWEWD\n" +
-                    "EWEEEEEEEWEEEEEEEEWD\n" +
-                    "EWEWWWWWWWEWEWWWWEWD\n" +
-                    "EWEWEEEEEEEWEWEWEEWD\n" +
-                    "EWEWEWWWWWEWEWEWEWWD\n" +
-                    "EWEWEEEEEWEWEWEEEEWD\n" +
-                    "EEEWWWWWEWEWEWEWWWWD\n" +
-                    "WWEWFEEEEWEEEWEEEEWD\n" +
-                    "EEEWWWWWWWWWWWWWWWWW");
             //generation des murs
-            walls = levelGame.getWalls("src/main/resources/level/level.txt");
+            walls = levelGame.getWalls("src/main/resources/level/Level1.txt");
 
             // fantômes
             obstacles = levelGame.getObstaclesLevel1();
-        }else if (value == 2){
-            //création des murs
-            createWall("EEEEEWEEEEEEEWEEEEWW\n" +
-                    "WWWWEWEWWWWWEWEWWWWD\n" +
-                    "EEEEEWEEEWEWEWEEEEWD\n" +
-                    "EWWWWWWWEWEWEWWEWEWD\n" +
-                    "EEEEEEEWEWEWEEEEWEWD\n" +
-                    "WWWEEEEWEWEWWWWWWEWD\n" +
-                    "EWEEEEEEEWEEEEEEEEWD\n" +
-                    "EWEWWWWWWWEWEWWWWEWD\n" +
-                    "EWEWEEEEEEEWEWEWEEWD\n" +
-                    "EWEWEWWWWWEWEWEWEWWD\n" +
-                    "EWEWEEEEEWEWEWEEEEWD\n" +
-                    "EEEWWWWWEWEWEWEWWWWD\n" +
-                    "WWEWFEEEEWEEEWEEEEWD\n" +
-                    "EEEWWWWWWWWWWWWWWWWW");
 
+        }else if (value == 2){
             //generation des murs
-            walls = levelGame.getWalls("src/main/resources/level/level.txt");
+            walls = levelGame.getWalls("src/main/resources/level/Level2.txt");
             // fantômes
             obstacles = levelGame.getObstaclesLevel2();
+
         }
 
         for(int i = 0; i<walls.length; i++) {
@@ -185,10 +156,6 @@ public class Game<value> {
         
 
         running = true;
-    }
-
-    void createWall(String s){
-        levelGame.setWalls(s);
     }
 
     void stop() {
