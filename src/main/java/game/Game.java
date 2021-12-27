@@ -17,6 +17,7 @@ import javafx.scene.text.Font;
 import javafx.util.Duration;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -55,6 +56,7 @@ public class Game<value> {
     // fantômes
 
     private List<Obstacle> obstacles;
+    private boolean listObstacle = true;
 
     // éléments de l'interface utilisateur
     private Label label;
@@ -117,6 +119,7 @@ public class Game<value> {
             walls = levelGame.getWalls("src/main/resources/level/Level1.txt");
             // fantômes
             obstacles = levelGame.getObstaclesLevel1();
+            System.out.println(obstacles);
         }else if (value == 2){
             //generation des murs
 
@@ -242,13 +245,32 @@ public class Game<value> {
 
     public void animate() {
         if (running) {
-            obstacles.forEach(ghost -> {
-                ghost.nextMove();
-                // fin de jeu si un fantome vient toucher le joueur
-                if (ghost.getX() == player_x && ghost.getY() == player_y) {
-                    endGame(false);
-                }
-            });
+            //Animation des obstacle
+            if (listObstacle == true) {
+                ArrayList<Integer> comp = new ArrayList<Integer>();
+                System.out.println(comp);
+                    obstacles.forEach(obstacle -> {
+                        if (obstacle.getX() == -1) {
+                            comp.add(-1);
+                            if (comp.size() == obstacles.size()){
+                                System.out.println("stop ");
+                                listObstacle = false;
+                                return;
+                            }
+
+                        } else {
+                            obstacle.nextMove();
+                            // fin de jeu si un obstacle de vient toucher le joueur
+                            if (obstacle.getX() == player_x && obstacle.getY() == player_y) {
+                                endGame(false);
+                                System.out.println("stop: obstacle detecté");
+                            }
+                        }
+                    });
+            }
+            else {
+                obstacles.removeAll(obstacles);
+            }
         }
     }
 
@@ -284,6 +306,6 @@ public class Game<value> {
         pane.getChildren().add(borderPane);
 
 
-        running = true;
+        running = false;
     }
 }
