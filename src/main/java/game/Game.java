@@ -249,7 +249,7 @@ public class Game<value> {
             //Animation des obstacle
             if (listObstacle == true) {
                 ArrayList<Integer> comp = new ArrayList<Integer>();
-                //System.out.println(comp);
+
                 obstacles.forEach(obstacle -> {
                     if (obstacle.getX() == -1) {
                         comp.add(-1);
@@ -257,12 +257,12 @@ public class Game<value> {
                             listObstacle = false;
                             return;
                         }
-
                     } else {
                         obstacle.nextMove();
                         // fin de jeu si un obstacle de vient toucher le joueur
                         if (obstacle.getX() == player_x && obstacle.getY() == player_y) {
                             endGame(false);
+                            System.out.println("stop: obstacle detecté");
                         }
                     }
                 });
