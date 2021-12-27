@@ -49,7 +49,8 @@ public class AnalyseLexicale {
 		if (Character.isLetter(c)) return 2;
 		if (c == '(') return 3;
 		if (c == ')') return 4;
-                if (c == ',') return 5;
+		if (c == ',') return 5;
+
 		throw new IllegalCharacterException();
 	}
 
@@ -96,13 +97,17 @@ public class AnalyseLexicale {
                                         tokens.add(new Token(TokenClass.playerWait));
                                     } else if (buf.equals("setWalls")) {
                                         tokens.add(new Token(TokenClass.setWalls));
-                                    }
+                                    }else {
+										tokens.add(new Token(TokenClass.stringVal));
+									}
 				} else if (e == 103) {
                                     if (buf.equals("couteau")) {
                                         tokens.add(new Token(TokenClass.couteau));
                                     } else if (buf.equals("rouleau")) {
                                         tokens.add(new Token(TokenClass.rouleau));
-                                    }
+                                    } else {
+                                    	tokens.add(new Token(TokenClass.stringVal));
+									}
                                     sr.goBack();
 				} else if (e == 104) {
 					tokens.add(new Token(TokenClass.rightPar));
