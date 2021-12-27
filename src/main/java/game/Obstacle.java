@@ -39,7 +39,7 @@ public class Obstacle {
         imageList.add(imageRouleau2);   //typeE = 2
         this.imageView = imageList.get(typeE);
 
-        imageView.setViewOrder(1);
+        imageView.setViewOrder(0);
         translate(x, y);
 
     }
