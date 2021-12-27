@@ -31,7 +31,7 @@ public class Tile {
                 break;
             case WALL:
                 imageView.setImage(SpritesLibrary.imgMur);
-                imageView.setViewOrder(0);
+                imageView.setViewOrder(2);
                 break;
             case EXIT:
                 imageView.setImage(SpritesLibrary.imgVictoire);

@@ -20,60 +20,60 @@ public class LevelGame implements Level {
     }
 
     public ArrayList<Obstacle> getObstaclesLevel1() {
-        ArrayList<Obstacle> ghosts = new ArrayList<>();
-        ghosts.add(
+        ArrayList<Obstacle> obstacles = new ArrayList<>();
+        obstacles.add(
                 new Obstacle(
                         6,
                         0
                 )
         );
 
-        ghosts.add(
+        obstacles.add(
                 new Obstacle(
                         1,
                         0
                 )
         );
 
-        ghosts.add(
+        obstacles.add(
                 new Obstacle(
-                        19,
+                        5,
                         2
                 )
         );
 
-        ghosts.add(
+        obstacles.add(
                 new Obstacle(
                         5,
                         1
                 )
         );
-        return ghosts;
+        return obstacles;
     }
 
     public ArrayList<Obstacle> getObstaclesLevel2() {
-        ArrayList<Obstacle> ghosts = new ArrayList<>();
-        ghosts.add(
+        ArrayList<Obstacle> obstacles = new ArrayList<>();
+        obstacles.add(
                 new Obstacle(
                         6,
                         1
                 )
         );
 
-        ghosts.add(
+        obstacles.add(
                 new Obstacle(
                         1,
                         1
                 )
         );
 
-        ghosts.add(
+        obstacles.add(
                 new Obstacle(
                         19,
                         2
                 )
         );
-        return ghosts;
+        return obstacles;
     }
 
     public void adjustWalls(Game game) {

@@ -149,7 +149,7 @@ public class Game<value> {
         ObservableList<Node> children = pane.getChildren();
         children.add(playerNode);
         obstacles.forEach(ghost -> children.add(ghost.getNode()));
-
+        
 
         running = true;
     }
