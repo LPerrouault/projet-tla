@@ -6,13 +6,13 @@ import java.util.Scanner;
 
 public class LevelGame implements Level {
 
-
-    public char[] getWalls(String fileName ) throws FileNotFoundException {
+    public char[] getWalls(String fileName) throws FileNotFoundException {
         String line = null;
-        try (var scanner = new Scanner(new File(fileName))) {
+        try ( var scanner = new Scanner(new File(fileName))) {
             while (scanner.hasNext()) {
-                if (line ==null)
+                if (line == null) {
                     line = scanner.nextLine();
+                }
                 line += scanner.nextLine();
             }
         }
@@ -76,7 +76,57 @@ public class LevelGame implements Level {
         return obstacles;
     }
 
-    public void adjustWalls(Game game) {
+    public Edio getEdioLevel1() {
+        ArrayList<Integer> sequenceMouvements = new ArrayList<Integer>();
+        sequenceMouvements.add(4);
+        sequenceMouvements.add(6);
+        sequenceMouvements.add(2);
+        sequenceMouvements.add(8);
+        Edio edio = new Edio(12,
+                new EdioAction[]{
+                    EdioAction.MOVE,
+                    EdioAction.PREPARE_COUTEAU,
+                    EdioAction.ATTACK_COUTEAU,
+                    EdioAction.MOVE,
+                    EdioAction.PREPARE_ROULEAU,
+                    EdioAction.ATTACK_ROULEAU,
+                    EdioAction.MOVE,
+                    EdioAction.PREPARE_COUTEAU,
+                    EdioAction.ATTACK_COUTEAU,
+                    EdioAction.MOVE,
+                    EdioAction.PREPARE_ROULEAU,
+                    EdioAction.ATTACK_ROULEAU
+                },
+                sequenceMouvements);
+        return edio;
+    }
+
+    public Edio getEdioLevel2() {
+        ArrayList<Integer> sequenceMouvements = new ArrayList<Integer>();
+        sequenceMouvements.add(4);
+        sequenceMouvements.add(2);
+        sequenceMouvements.add(6);
+        sequenceMouvements.add(8);
+        Edio edio = new Edio(11,
+                new EdioAction[]{
+                    EdioAction.MOVE,
+                    EdioAction.PREPARE_COUTEAU,
+                    EdioAction.ATTACK_COUTEAU,
+                    EdioAction.MOVE,
+                    EdioAction.PREPARE_ROULEAU,
+                    EdioAction.ATTACK_ROULEAU,
+                    EdioAction.MOVE,
+                    EdioAction.PREPARE_COUTEAU,
+                    EdioAction.ATTACK_COUTEAU,
+                    EdioAction.MOVE,
+                    EdioAction.PREPARE_ROULEAU,
+                    EdioAction.ATTACK_ROULEAU
+                },
+                sequenceMouvements);
+        return edio;
+    }
+
+    /*public void adjustWalls(Game game) {
         game.getTile(2, 9).setState(
                 game.isVisited(2, 10) > 0 ?
                         TileState.WALL :
@@ -87,5 +137,5 @@ public class LevelGame implements Level {
                         TileState.EMPTY :
                         TileState.WALL
         );
-    }
+    }*/
 }

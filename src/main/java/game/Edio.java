@@ -20,7 +20,7 @@ public class Edio {
     private ArrayList<Integer> sequenceMouvements;
 
     // éléments graphiques de Edio
-    private ImageView imageEdio;    //Image prenant les autres images en valeur
+    private ImageView imageEdio = new ImageView(SpritesLibrary.imgEdioSmall);    //Image prenant les autres images en valeur
     private ImageView imageNone = new ImageView(SpritesLibrary.imgEdioSmall);
     private ImageView imageCouteau = new ImageView(SpritesLibrary.imgEdioCouteau);
     private ImageView imageRouleau = new ImageView(SpritesLibrary.imgEdioRoadroller);
@@ -43,7 +43,6 @@ public class Edio {
         this.indexMouvement = 0;
         this.indexAction = 0;
 
-        this.imageEdio = imageNone;  //Par défaut, edio ne prépare pas d'attaque
         this.imageEdio.setViewOrder(1); //Edio est visible par dessus les murs
 
         translate(this.x, this.y);
@@ -58,39 +57,40 @@ public class Edio {
     void nextMove() {
         boolean has_moved = false;
         do {
-            has_moved = nextStepActionMouvement();
+            has_moved = nextStep();
             indexAction = (indexAction + 1) % sequenceActions.length;
         } while (!has_moved);
     }
     
-    private boolean nextStepActionMouvement() {
+    private boolean nextStep() {
         boolean has_moved = false;
         Integer new_y;
         switch (sequenceActions[indexAction]) {
             case MOVE:
-                new_y = sequenceMouvements.get(indexMouvement);
+                imageEdio.setImage(imageNone.getImage());
+                this.y = sequenceMouvements.get(indexMouvement);
                 indexMouvement = (indexAction + 1) % sequenceMouvements.size();
                 has_moved = true;
                 translate(x, y);
                 break;
 
             case PREPARE_COUTEAU:
-                imageEdio = imageCouteau;
+                imageEdio.setImage(imageCouteau.getImage());
                 has_moved = true;
                 break;
                 
             case PREPARE_ROULEAU:
-                imageEdio = imageRouleau;
+                imageEdio.setImage(imageRouleau.getImage());
                 has_moved = true;
                 break;
                 
             case ATTACK_COUTEAU:
-                this.imageEdio = imageNone;
+                imageEdio.setImage(imageNone.getImage());
                 has_moved = true;
                 break;
                 
             case ATTACK_ROULEAU:
-                this.imageEdio = imageNone;
+                imageEdio.setImage(imageNone.getImage());
                 has_moved = true;
                 break;
         }
@@ -101,7 +101,6 @@ public class Edio {
     public int getX() {
         return x;
     }
-
     public int getY() {
         return y;
     }

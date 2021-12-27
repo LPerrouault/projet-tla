@@ -113,11 +113,13 @@ public class Game<value> {
             //Génération des obstacles
             obstacles = levelGame.getObstaclesLevel1();
             System.out.println(obstacles);
+            edio = levelGame.getEdioLevel1();
         } else if (value == 2) {
             //Génération des murs
             walls = levelGame.getWalls("src/main/resources/level/Level2.txt");
             //Génération des obstacles
             obstacles = levelGame.getObstaclesLevel2();
+            edio = levelGame.getEdioLevel2();
         }
 
         for (int i = 0; i < walls.length; i++) {
@@ -146,8 +148,8 @@ public class Game<value> {
 
         ObservableList<Node> children = pane.getChildren();
         children.add(playerNode);
-        obstacles.forEach(ghost -> children.add(ghost.getNode()));
-
+        children.add(edio.getNode());
+        obstacles.forEach(obstacle -> children.add(obstacle.getNode()));
         running = true;
     }
 
@@ -242,10 +244,12 @@ public class Game<value> {
 
     public void animate() {
         if (running) {
+            //Animation de edio
+            edio.nextMove();
             //Animation des obstacle
             if (listObstacle == true) {
                 ArrayList<Integer> comp = new ArrayList<Integer>();
-                System.out.println(comp);
+                //System.out.println(comp);
                 obstacles.forEach(obstacle -> {
                     if (obstacle.getX() == -1) {
                         comp.add(-1);
