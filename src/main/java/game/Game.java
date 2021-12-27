@@ -54,7 +54,7 @@ public class Game<value> {
 
     // fantômes
 
-    private List<Ghost> ghosts;
+    private List<Obstacle> obstacles;
 
     // éléments de l'interface utilisateur
     private Label label;
@@ -116,13 +116,13 @@ public class Game<value> {
             //generation des murs
             walls = levelGame.getWalls("src/main/resources/level/Level1.txt");
             // fantômes
-            ghosts = levelGame.getGhostsLevel1();
+            obstacles = levelGame.getObstaclesLevel1();
         }else if (value == 2){
             //generation des murs
 
             walls = levelGame.getWalls("src/main/resources/level/Level2.txt");
             // fantômes
-            ghosts = levelGame.getGhostsLevel2();
+            obstacles = levelGame.getObstaclesLevel2();
         }
 
         for(int i = 0; i<walls.length; i++) {
@@ -148,7 +148,7 @@ public class Game<value> {
 
         ObservableList<Node> children = pane.getChildren();
         children.add(playerNode);
-        ghosts.forEach(ghost -> children.add(ghost.getNode()));
+        obstacles.forEach(ghost -> children.add(ghost.getNode()));
 
 
         running = true;
@@ -206,7 +206,7 @@ public class Game<value> {
         } else {
 
             // test collision avec fantome
-            ghosts.forEach(ghost -> {
+            obstacles.forEach(ghost -> {
                 if (ghost.getX() == player_x && ghost.getY() == player_y) {
                     endGame(false);
                 }
@@ -242,7 +242,7 @@ public class Game<value> {
 
     public void animate() {
         if (running) {
-            ghosts.forEach(ghost -> {
+            obstacles.forEach(ghost -> {
                 ghost.nextMove();
                 // fin de jeu si un fantome vient toucher le joueur
                 if (ghost.getX() == player_x && ghost.getY() == player_y) {

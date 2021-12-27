@@ -16,11 +16,11 @@ interface Level {
     /*
     instructions de déplacement des fantômes
     */
-    default ArrayList<Ghost> getGhostsLevel1() {
-        return new ArrayList<Ghost>();
+    default ArrayList<Obstacle> getObstaclesLevel1() {
+        return new ArrayList<Obstacle>();
     }
-    default ArrayList<Ghost> getGhostsLevel2() {
-        return new ArrayList<Ghost>();
+    default ArrayList<Obstacle> getObstaclesLevel2() {
+        return new ArrayList<Obstacle>();
     }
 
 

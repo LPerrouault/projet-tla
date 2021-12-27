@@ -19,134 +19,58 @@ public class LevelGame implements Level {
         return line.toCharArray();
     }
 
-    public ArrayList<Ghost> getGhostsLevel1() {
-        ArrayList<Ghost> ghosts = new ArrayList<>();
+    public ArrayList<Obstacle> getObstaclesLevel1() {
+        ArrayList<Obstacle> ghosts = new ArrayList<>();
         ghosts.add(
-                new Ghost(
+                new Obstacle(
                         6,
-                        4,
-                        1,
-                        new GhostAction[]{
-                                GhostAction.FORWARD,
-                                GhostAction.FORWARD,
-                                GhostAction.FORWARD,
-                                GhostAction.FORWARD,
-                                GhostAction.TURN_RIGHT,
-                                GhostAction.FORWARD,
-                                GhostAction.FORWARD,
-                                GhostAction.TURN_RIGHT,
-                                GhostAction.FORWARD,
-                                GhostAction.FORWARD,
-                                GhostAction.FORWARD,
-                                GhostAction.FORWARD,
-                                GhostAction.TURN_RIGHT,
-                                GhostAction.FORWARD,
-                                GhostAction.FORWARD,
-                                GhostAction.TURN_RIGHT
-                        }
+                        0
                 )
         );
 
         ghosts.add(
-                new Ghost(
+                new Obstacle(
                         1,
-                        4,
-                        1,
-                        new GhostAction[]{
-                                GhostAction.FORWARD,
-                                GhostAction.FORWARD,
-                                GhostAction.FORWARD,
-                                GhostAction.REINIT
-                        }
+                        0
                 )
         );
 
         ghosts.add(
-                new Ghost(
+                new Obstacle(
                         19,
-                        2,
-                        2,
-                        new GhostAction[]{
-                                GhostAction.FORWARD,
-                                GhostAction.FORWARD,
-                                GhostAction.FORWARD,
-                                GhostAction.REINIT
-                        }
+                        2
                 )
         );
 
         ghosts.add(
-                new Ghost(
+                new Obstacle(
                         5,
-                        12,
-                        1,
-                        new GhostAction[]{
-                                GhostAction.FORWARD,
-                                GhostAction.FORWARD,
-                                GhostAction.FORWARD,
-                                GhostAction.TURN_LEFT,
-                                GhostAction.FORWARD,
-                                GhostAction.FORWARD,
-                                GhostAction.REINIT
-                        }
+                        1
                 )
         );
         return ghosts;
     }
 
-    public ArrayList<Ghost> getGhostsLevel2() {
-        ArrayList<Ghost> ghosts = new ArrayList<>();
+    public ArrayList<Obstacle> getObstaclesLevel2() {
+        ArrayList<Obstacle> ghosts = new ArrayList<>();
         ghosts.add(
-                new Ghost(
+                new Obstacle(
                         6,
-                        4,
-                        1,
-                        new GhostAction[]{
-                                GhostAction.FORWARD,
-                                GhostAction.FORWARD,
-                                GhostAction.FORWARD,
-                                GhostAction.FORWARD,
-                                GhostAction.TURN_RIGHT,
-                                GhostAction.FORWARD,
-                                GhostAction.FORWARD,
-                                GhostAction.TURN_RIGHT,
-                                GhostAction.FORWARD,
-                                GhostAction.FORWARD,
-                                GhostAction.FORWARD,
-                                GhostAction.FORWARD,
-                                GhostAction.TURN_RIGHT,
-                                GhostAction.FORWARD,
-                                GhostAction.FORWARD,
-                                GhostAction.TURN_RIGHT
-                        }
+                        1
                 )
         );
 
         ghosts.add(
-                new Ghost(
+                new Obstacle(
                         1,
-                        4,
-                        1,
-                        new GhostAction[]{
-                                GhostAction.FORWARD,
-                                GhostAction.FORWARD,
-                                GhostAction.FORWARD,
-                                GhostAction.REINIT
-                        }
+                        1
                 )
         );
 
         ghosts.add(
-                new Ghost(
+                new Obstacle(
                         19,
-                        2,
-                        2,
-                        new GhostAction[]{
-                                GhostAction.FORWARD,
-                                GhostAction.FORWARD,
-                                GhostAction.FORWARD,
-                                GhostAction.REINIT
-                        }
+                        2
                 )
         );
         return ghosts;
