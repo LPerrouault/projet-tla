@@ -1,8 +1,14 @@
 package game;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Scanner;
+import java.util.Timer;
 
 public class LevelGame implements Level {
 
@@ -17,6 +23,20 @@ public class LevelGame implements Level {
             }
         }
         return line.toCharArray();
+    }
+
+    public void setWalls(String level){
+        File file = new File("src/main/resources/level/level.txt");
+
+            try {
+                FileWriter fw =  new FileWriter(file.getAbsoluteFile());
+                BufferedWriter bw = new BufferedWriter(fw);
+                bw.write(level);
+                bw.close();
+            } catch (IOException e) {
+                System.out.println("Erreur création du fichier " );
+                System.out.println(level);
+            }
     }
 
     public ArrayList<Obstacle> getObstaclesLevel1() {
