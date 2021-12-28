@@ -98,14 +98,14 @@ public class AnalyseSyntaxique {
 
     private void B() throws UnexpectedTokenException {
 
-        if (getTokenClass() == TokenClass.dioMove ||
-                getTokenClass() == TokenClass.dioPrepare || getTokenClass() == TokenClass.dioAttaque) {
+        if (getTokenClass() == TokenClass.dioMove || getTokenClass() == TokenClass.dioPrepare || getTokenClass() == TokenClass.dioAttaque) {
 
             // production B -> CB'
 
             profondeur++;
             C();
             profondeur--;
+            B_prime();
 
             return;
         }
@@ -121,11 +121,11 @@ public class AnalyseSyntaxique {
             profondeur++;
             B();
             profondeur--;
+
             return;
         }
 
-        if (isEOF()) {
-
+        if(getTokenClass() == TokenClass.rightPar){
             // production B' -> epsilon
 
             return;
