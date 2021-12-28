@@ -82,10 +82,6 @@ public class LevelGame implements Level {
                 {8, 8}
         };
         Lemonde lemonde = new Lemonde(tabCases);
-        /*if (game.isVisited(1, 0) == 1) {
-                game.pane.getChildren().add(lemonde.getNode());
-        }*/
-        
         return lemonde;
     }
 
