@@ -21,7 +21,9 @@ public class SpritesLibrary {
     static final Image imgEdioSmall = new Image(SpritesLibrary.class.getResourceAsStream("/sprites/edio.png"), Game.TILE_SIZE + 6, Game.TILE_SIZE + 6, true, false);
     static final Image imgEdioCouteau = new Image(SpritesLibrary.class.getResourceAsStream("/sprites/edio_couteau.png"), Game.TILE_SIZE + 6, Game.TILE_SIZE + 6, true, false);
     static final Image imgEdioRoadroller = new Image(SpritesLibrary.class.getResourceAsStream("/sprites/edio_roadroller.png"), Game.TILE_SIZE + 6, Game.TILE_SIZE + 6, true, false);
-
+    
+    static final Image imgLeMonde = new Image(SpritesLibrary.class.getResourceAsStream("/sprites/lemonde.png"), Game.TILE_SIZE, Game.TILE_SIZE, true, false);
+    
     static final Image imgCouteau = new Image(SpritesLibrary.class.getResourceAsStream("/sprites/couteau.png"), Game.TILE_SIZE - 6, Game.TILE_SIZE - 6, true, false);
     static final Image imgRouleau1 = new Image(SpritesLibrary.class.getResourceAsStream("/sprites/rouleau1.png"), Game.TILE_SIZE - 6, Game.TILE_SIZE - 6, true, false);
     static final Image imgRouleau2 = new Image(SpritesLibrary.class.getResourceAsStream("/sprites/rouleau2.png"), Game.TILE_SIZE - 6, Game.TILE_SIZE - 6, true, false);

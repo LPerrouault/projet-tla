@@ -5,6 +5,7 @@ game\IncompleteParsingException.class
 game\Tile.class
 game\TP4.class
 game\Token.class
+game\Lemonde.class
 game\AnalyseSyntaxique.class
 game\TestAnalyseLexicale.class
 module-info.class
