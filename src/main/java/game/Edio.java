@@ -69,7 +69,7 @@ public class Edio {
             case MOVE:
                 imageEdio.setImage(imageNone.getImage());
                 this.y = sequenceMouvements.get(indexMouvement);
-                indexMouvement = (indexAction + 1) % sequenceMouvements.size();
+                indexMouvement = (indexMouvement + 1) % sequenceMouvements.size();
                 has_moved = true;
                 translate(x, y);
                 break;
@@ -107,6 +107,14 @@ public class Edio {
     
     javafx.scene.Node getNode() {
         return imageEdio;
+    }
+    
+    /**
+     * Retourne l'action à effectuer
+     * @return EdioAction l'action à effectuer
+     */
+    public EdioAction getEdioAction(){
+        return sequenceActions[indexAction];
     }
     
     @Override

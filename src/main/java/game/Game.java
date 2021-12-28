@@ -22,9 +22,9 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Game<value> {
-
+    
     final String message = " R : redémarrer la partie \n" + " \n Q : pour revenir au menu";
-
+    
     final static int TILE_SIZE = 32;
     final static int BOARD_WIDTH = 20;
     final static int BOARD_HEIGHT = 14;
@@ -59,7 +59,7 @@ public class Game<value> {
 
     // Niveau en cours
     LevelGame levelGame;
-
+    
     Game(BorderPane borderPane) {
         pane = new Pane();
         pane.setPrefSize(
@@ -67,10 +67,10 @@ public class Game<value> {
                 Game.BOARD_HEIGHT * Game.TILE_SIZE
         );
         borderPane.setCenter(pane);
-
+        
         label = new Label();
         borderPane.setBottom(label);
-
+        
         Timeline timeline = new Timeline(
                 //A chaque KeyFrame, lance la fonction animate()
                 new KeyFrame(
@@ -81,47 +81,43 @@ public class Game<value> {
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
     }
-
+    
     void setLevel(LevelGame levelGame) {
         this.levelGame = levelGame;
     }
-
+    
     public int getValue() {
         return value;
     }
-
+    
     public void setValue(int value) {
         this.value = value;
     }
-
+    
     void start(int value) throws IOException {
         setValue(value);
         Arrays.fill(visited, 0);
-
+        
         pane.getChildren().clear();
-
+        
         for (int y = 0; y < BOARD_HEIGHT; y++) {
             for (int x = 0; x < BOARD_WIDTH; x++) {
                 tiles[y * BOARD_WIDTH + x] = new Tile(x, y, pane);
             }
         }
         char[] walls = null;
+        obstacles = new ArrayList<>();
         //Choix du niveau
         if (value == 1) {
-            //Génération des murs
+            //Génération des murs et de Edio
             walls = levelGame.getWalls("src/main/resources/level/Level1.txt");
-            //Génération des obstacles
-            obstacles = levelGame.getObstaclesLevel1();
-            System.out.println(obstacles);
             edio = levelGame.getEdioLevel1();
         } else if (value == 2) {
-            //Génération des murs
+            //Génération des murs et de Edio
             walls = levelGame.getWalls("src/main/resources/level/Level2.txt");
-            //Génération des obstacles
-            obstacles = levelGame.getObstaclesLevel2();
             edio = levelGame.getEdioLevel2();
         }
-
+        
         for (int i = 0; i < walls.length; i++) {
             switch (walls[i]) {
                 case 'W':
@@ -141,50 +137,49 @@ public class Game<value> {
         // position initiale du joueur
         player_x = 0;
         player_y = 0;
-
+        
         playerNode = new ImageView(SpritesLibrary.imgJajaSmall);
         playerNode.setTranslateX(player_x * Game.TILE_SIZE - 3);
         playerNode.setTranslateY(player_y * Game.TILE_SIZE - 3);
-
+        
         ObservableList<Node> children = pane.getChildren();
         children.add(playerNode);
         children.add(edio.getNode());
-        obstacles.forEach(obstacle -> children.add(obstacle.getNode()));
         running = true;
     }
-
+    
     void stop() {
         running = false;
     }
-
+    
     void left() {
         if (running && player_x > 0 && isNotWall(player_x - 1, player_y)) {
             player_x--;
             playerRefresh();
         }
     }
-
+    
     void right() {
         if (running && player_x < BOARD_WIDTH - 1 && isNotWall(player_x + 1, player_y)) {
             player_x++;
             playerRefresh();
         }
     }
-
+    
     void up() {
         if (running && player_y > 0 && isNotWall(player_x, player_y - 1)) {
             player_y--;
             playerRefresh();
         }
     }
-
+    
     void down() {
         if (running && player_y < BOARD_HEIGHT - 1 && isNotWall(player_x, player_y + 1)) {
             player_y++;
             playerRefresh();
         }
     }
-
+    
     void playerRefresh() {
 
         // déplacement de l'élément graphique du joueur
@@ -217,39 +212,54 @@ public class Game<value> {
             if (value > 2) {
                 value = 1;
             }
-
+            
             visited[player_y * BOARD_WIDTH + player_x] = value;
 
             // Mise à jour de la visibilité des murs
             levelGame.adjustWalls(this);
         }
-
+        
     }
-
+    
     Tile getTile(int x, int y) {
         return tiles[y * BOARD_WIDTH + x];
     }
-
+    
     int isVisited(int x, int y) {
         return visited[y * BOARD_WIDTH + x];
     }
-
+    
     boolean isNotWall(int x, int y) {
         return tiles[y * BOARD_WIDTH + x].getState() != TileState.WALL;
     }
-
+    
     boolean isExit(int x, int y) {
         return tiles[y * BOARD_WIDTH + x].getState() == TileState.EXIT;
     }
-
+    
     public void animate() {
         if (running) {
             //Animation de edio
             edio.nextMove();
+            //Création des obstacles si Edio effectue ATTACK_COUTEAU et ATTACK_ROULEAU
+            ObservableList<Node> children = pane.getChildren();
+            if (edio.getEdioAction() == EdioAction.ATTACK_COUTEAU) {
+                obstacles.add(new Obstacle(edio.getY()-1,0));
+                children.add(obstacles.get(obstacles.size()-1).getNode());
+                obstacles.add(new Obstacle(edio.getY(),0));
+                children.add(obstacles.get(obstacles.size()-1).getNode());
+                obstacles.add(new Obstacle(edio.getY()+1,0));
+                children.add(obstacles.get(obstacles.size()-1).getNode());
+            } else if (edio.getEdioAction() == EdioAction.ATTACK_ROULEAU) {
+                obstacles.add(new Obstacle(edio.getY(),1));
+                children.add(obstacles.get(obstacles.size()-1).getNode());
+                obstacles.add(new Obstacle(edio.getY(),2));
+                children.add(obstacles.get(obstacles.size()-1).getNode());
+            }
             //Animation des obstacle
             if (listObstacle == true) {
                 ArrayList<Integer> comp = new ArrayList<Integer>();
-
+                
                 obstacles.forEach(obstacle -> {
                     if (obstacle.getX() == -1) {
                         comp.add(-1);
@@ -271,7 +281,7 @@ public class Game<value> {
             }
         }
     }
-
+    
     private void endGame(Boolean success) {
         BorderPane borderPane = new BorderPane();
         GridPane endGame = new GridPane();
@@ -302,7 +312,7 @@ public class Game<value> {
         borderPane.setCenter(endGame);
         borderPane.setMargin(endGame, new Insets(80, 0, 50, 200));
         pane.getChildren().add(borderPane);
-
+        
         running = false;
     }
 }

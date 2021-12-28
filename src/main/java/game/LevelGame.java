@@ -45,63 +45,6 @@ public class LevelGame implements Level {
             }
     }
 
-    public ArrayList<Obstacle> getObstaclesLevel1() {
-        ArrayList<Obstacle> obstacles = new ArrayList<>();
-        obstacles.add(
-                new Obstacle(
-                        6,
-                        0
-                )
-        );
-
-        obstacles.add(
-                new Obstacle(
-                        1,
-                        0
-                )
-        );
-
-        obstacles.add(
-                new Obstacle(
-                        5,
-                        2
-                )
-        );
-
-        obstacles.add(
-                new Obstacle(
-                        5,
-                        1
-                )
-        );
-        return obstacles;
-    }
-
-    public ArrayList<Obstacle> getObstaclesLevel2() {
-        ArrayList<Obstacle> obstacles = new ArrayList<>();
-        obstacles.add(
-                new Obstacle(
-                        6,
-                        1
-                )
-        );
-
-        obstacles.add(
-                new Obstacle(
-                        1,
-                        1
-                )
-        );
-
-        obstacles.add(
-                new Obstacle(
-                        19,
-                        2
-                )
-        );
-        return obstacles;
-    }
-
     public Edio getEdioLevel1() {
         ArrayList<Integer> sequenceMouvements = new ArrayList<Integer>();
         sequenceMouvements.add(4);
