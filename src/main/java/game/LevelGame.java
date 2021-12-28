@@ -49,8 +49,9 @@ public class LevelGame implements Level {
         ArrayList<Integer> sequenceMouvements = new ArrayList<Integer>();
         sequenceMouvements.add(4);
         sequenceMouvements.add(6);
-        sequenceMouvements.add(2);
+        sequenceMouvements.add(1);
         sequenceMouvements.add(8);
+        sequenceMouvements.add(11);
         Edio edio = new Edio(12,
                 new EdioAction[]{
                     EdioAction.MOVE,
@@ -64,7 +65,10 @@ public class LevelGame implements Level {
                     EdioAction.ATTACK_COUTEAU,
                     EdioAction.MOVE,
                     EdioAction.PREPARE_ROULEAU,
-                    EdioAction.ATTACK_ROULEAU
+                    EdioAction.ATTACK_ROULEAU,
+                    EdioAction.MOVE,
+                    EdioAction.PREPARE_COUTEAU,
+                    EdioAction.ATTACK_COUTEAU
                 },
                 sequenceMouvements);
         return edio;
