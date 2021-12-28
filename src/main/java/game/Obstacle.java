@@ -62,7 +62,7 @@ public class Obstacle {
     private boolean nextStep() {
 
         boolean has_moved = false;
-        if (x > -1) {   //L'obstacle peut se déplacer jusqu'à la case -1
+        if (x > -20) {   //L'obstacle peut se déplacer jusqu'à la case -20
             x = x - 1;  //L'obstacle se déplace d'une case à gauche
         }
         has_moved = true;
