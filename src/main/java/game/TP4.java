@@ -6,8 +6,8 @@ public class TP4 {
 
 	public static void main(String[] args) {
 
-		// testAnalyseLexicale("1 + (6 + 1) * 10 + 2 * 3");
-
+		testAnalyseLexicale("dioActions(dioMove(1))");
+		testAnalyseSyntaxique("dioActions(dioMove(1))");
 		/*
 		testAnalyseSyntaxique("1 + 2 * (3 + 4)");
 		testAnalyseSyntaxique("3 + (3 * 2)");
@@ -39,7 +39,7 @@ public class TP4 {
 	public static void testAnalyseSyntaxique(String entree) {
 		System.out.println();
 		try {
-			List<Token> tokens = tokens = new AnalyseLexicale().analyse(entree);
+			List<Token> tokens = new AnalyseLexicale().analyse(entree);
 			System.out.println("Liste des tokens :");
 			for(Token t: tokens) {
 				System.out.println(" " + t);

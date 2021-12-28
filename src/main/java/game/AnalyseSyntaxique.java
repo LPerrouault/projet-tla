@@ -15,7 +15,7 @@ public class AnalyseSyntaxique {
     public void analyse(List<Token> tokens) throws Exception {
         this.tokens = tokens;
         pos = 0;
-        //S();
+        S();
         if (pos != tokens.size()) {
             System.out.println("L'analyse syntaxique s'est terminé avant l'examen de tous les tokens");
             throw new IncompleteParsingException();
@@ -30,9 +30,7 @@ public class AnalyseSyntaxique {
 
     private void S() throws UnexpectedTokenException {
 
-        if (getTokenClass() == TokenClass.playerStart ||
-                getTokenClass() == TokenClass.dioStart || getTokenClass() == TokenClass.dioActions || getTokenClass() == TokenClass.playerWait
-                || getTokenClass() == TokenClass.setWalls) {
+        if (getTokenClass() == TokenClass.dioActions || getTokenClass() == TokenClass.setWalls) {
 
             // production S -> AS'
 
@@ -47,9 +45,7 @@ public class AnalyseSyntaxique {
 
     private void S_prime() throws UnexpectedTokenException {
 
-        if (getTokenClass() == TokenClass.playerStart ||
-                getTokenClass() == TokenClass.dioStart || getTokenClass() == TokenClass.dioActions || getTokenClass() == TokenClass.playerWait
-                || getTokenClass() == TokenClass.setWalls) {
+        if (getTokenClass() == TokenClass.dioActions || getTokenClass() == TokenClass.setWalls) {
 
             // production S' -> S
 
@@ -71,40 +67,29 @@ public class AnalyseSyntaxique {
 
     private void A() throws UnexpectedTokenException {
 
-        if (getTokenClass() == TokenClass.playerStart ||
-                getTokenClass() == TokenClass.dioStart || getTokenClass() == TokenClass.playerWait) {
+       if (getTokenClass() == TokenClass.dioActions) {
 
-            // production A -> fonction(E
-
-            getToken();
-            profondeur++;
-            E();
-            profondeur--;
-
-            return;
-        }
-
-        if (getTokenClass() == TokenClass.dioActions) {
-
-            // production A -> dioActions(B)
+            // production A -> dioActions(B G
 
             getToken();
+            printNode("dioActions(");
             profondeur++;
             B();
             profondeur--;
+            G();
 
             return;
         }
 
         if (getTokenClass() == TokenClass.setWalls) {
 
-            // production A -> setWall(F)
-
+            // production A -> setWalls(F G
             getToken();
+            printNode("setWalls(");
             profondeur++;
             F();
             profondeur--;
-
+            G();
             return;
         }
 
@@ -153,22 +138,28 @@ public class AnalyseSyntaxique {
 
         if (getTokenClass() == TokenClass.dioMove) {
 
-            // production C -> dioMove(E)
+            // production C -> dioMove(E G
 
             getToken();
+            printNode("dioMove(");
             profondeur++;
             E();
             profondeur--;
+            G();
+            return;
         }
 
         if (getTokenClass() == TokenClass.dioPrepare || getTokenClass() == TokenClass.dioAttaque) {
 
-            // production C -> fonction(D
+            // production C -> fonction(D G
 
-            getToken();
+            Token token = getToken();
+            printNode(token.getValue());
             profondeur++;
             D();
             profondeur--;
+            G();
+
             return;
         }
 
@@ -180,7 +171,8 @@ public class AnalyseSyntaxique {
 
             // production D -> couteau ou D -> rouleau
 
-            getToken();
+            Token token = getToken();
+            printNode(token.getValue());
 
             return;
 
@@ -194,8 +186,8 @@ public class AnalyseSyntaxique {
 
             // production E -> intVal
 
-            Token tokIntVal = getToken();
-            printNode(tokIntVal.getValue()); // affiche la valeur int
+            Token token = getToken();
+            printNode(token.getValue());
 
             return;
         }
@@ -214,6 +206,15 @@ public class AnalyseSyntaxique {
         }
 
         throw new UnexpectedTokenException("string attendu");
+    }
+
+    private void G() throws UnexpectedTokenException {
+        if(getTokenClass() == TokenClass.rightPar){
+            getToken();
+            printNode(")");
+            return;
+        }
+        throw new UnexpectedTokenException(") attendue");
     }
     /*
 
