@@ -9,7 +9,7 @@ Gère l'affichage d'un carreau, pouvant être :
 - vide
 - un mur
 - une sortie
-- un enemie
+- la zone de l'ennemi
 */
 public class Tile {
     private TileState state;
@@ -32,16 +32,15 @@ public class Tile {
                 break;
             case WALL:
                 imageView.setImage(SpritesLibrary.imgMur);
-                imageView.setViewOrder(0);
+                imageView.setViewOrder(2);
                 break;
             case EXIT:
                 imageView.setImage(SpritesLibrary.imgVictoire);
                 imageView.setViewOrder(20);
                 break;
-            case ZONEENEMY:
-                imageView.setImage(SpritesLibrary.imgZoneEnemi);
+            case DIO:
+                imageView.setImage(SpritesLibrary.imgEnnemi);
                 imageView.setViewOrder(20);
-                break;
         }
     }
 

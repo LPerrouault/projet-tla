@@ -1,160 +1,127 @@
 package game;
 
-import game.action.EdioAction;
-import javafx.animation.TranslateTransition;
-import javafx.scene.image.ImageView;
-import javafx.util.Duration;
-
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Random;
+import javafx.scene.image.ImageView;
 
 public class Edio {
-    // coordonnées et orientation initiales
-    private int init_x;
-    private int init_y;
-    private int init_orientation;
 
     // coordonnées et orientation courante
     private int x = 19;
     private int y;
-    private int orientation;
-    private int action;
 
-    // index dans la séquence de mouvement
-    private int indexMouvement;
-
-    // stockage du parcour de la sequence
-    public ArrayList<Integer> tabSequence;
-
-    // index dans la séquence d'action
+    //Index dans la séquence d'actions
     private int indexAction;
+    //Séquence d'instruction
+    private EdioAction[] sequenceActions;
 
+    //Index dans la séquence de mouvement
+    private int indexMouvement;
+    //Séquence de mouvement
+    private ArrayList<Integer> sequenceMouvements;
 
-    // séquence d'instruction
-    private EdioAction[] sequence;
+    // éléments graphiques de Edio
+    private ImageView imageEdio = new ImageView(SpritesLibrary.imgEdioSmall);    //Image prenant les autres images en valeur
+    private ImageView imageNone = new ImageView(SpritesLibrary.imgEdioSmall);
+    private ImageView imageCouteau = new ImageView(SpritesLibrary.imgEdioCouteau);
+    private ImageView imageRouleau = new ImageView(SpritesLibrary.imgEdioRoadroller);
 
-    // élément graphique de Edio
-    private ImageView imageEdio;
-    private ImageView imageCouteau;
-    private ImageView imageRouleau;
-
-
-    public Edio(int y, int orientation,EdioAction[] sequence) {
-        this.init_x = 19;
-        this.init_y = y;
-        this.init_orientation = orientation;
-
+    /**
+     * Constructeur de la classe Edio
+     *
+     * @param y La ligne de début où se trouve Edio
+     * @param sequenceActions Les actions effectuées en boucle par Edio
+     * @param sequenceMouvements Lors que Edio effectue l'action MOVE, consulte
+     * la case à laquelle il doit se déplacer
+     */
+    public Edio(int y, EdioAction[] sequenceActions, ArrayList<Integer> sequenceMouvements) {
+        this.x = 19;    //edio est positionné tout à gauche de l'écran
         this.y = y;
-        setX(19);
-        this.orientation = orientation;
-        this.action = action;
-        tabSequence = new ArrayList<Integer>();
 
-        this.sequence = sequence;
-        indexMouvement = 0;
-        indexAction = 0;
+        this.sequenceActions = sequenceActions; //La séquence des actions de edio
+        this.sequenceMouvements = sequenceMouvements; //Contient les lignes auxquelles
+        //edio doit se déplacer lorsqu'il y a une EdioAction MOVE
+        this.indexMouvement = 0;
+        this.indexAction = 0;
 
-        imageEdio = new ImageView(SpritesLibrary.imgEdioSmall);
-        imageCouteau = new ImageView(SpritesLibrary.imgEdioCouteau);
-        imageRouleau = new ImageView(SpritesLibrary.imgEdioRoadroller);
-        imageEdio.setViewOrder(20);
-        imageCouteau.setViewOrder(20);
-        imageRouleau.setViewOrder(20);
+        this.imageEdio.setViewOrder(1); //Edio est visible par dessus les murs
 
-        translate(x, y);
+        translate(this.x, this.y);
     }
+
+    //Déplacement de Edio sans transition
     private void translate(int x, int y) {
         imageEdio.setTranslateX(x * Game.TILE_SIZE + 3);
         imageEdio.setTranslateY(y * Game.TILE_SIZE + 3);
     }
-
-
+    
     void nextMove() {
         boolean has_moved = false;
         do {
-            has_moved = nextStepMouvement();
-            indexMouvement = (indexMouvement + 1) % sequence.length;
+            has_moved = nextStep();
+            indexAction = (indexAction + 1) % sequenceActions.length;
         } while (!has_moved);
     }
-
-
-    private boolean nextStepMouvement() {
-
+    
+    private boolean nextStep() {
         boolean has_moved = false;
-
-        switch (sequence[indexMouvement]) {
-            case TOP:
-                if (y > 0) y = y - 1;
-                orientation = 1;
-                setAddListSequence(y);
+        Integer new_y;
+        switch (sequenceActions[indexAction]) {
+            case MOVE:
+                imageEdio.setImage(imageNone.getImage());
+                this.y = sequenceMouvements.get(indexMouvement);
+                indexMouvement = (indexMouvement + 1) % sequenceMouvements.size();
                 has_moved = true;
-                smoothTranslate(x, y);
+                translate(x, y);
                 break;
 
-            case DOWN:
-              if (y < Game.BOARD_HEIGHT - 1) y = y + 1;
-                orientation = orientation - 1;
-                setAddListSequence(y);
+            case PREPARE_COUTEAU:
+                imageEdio.setImage(imageCouteau.getImage());
                 has_moved = true;
-                smoothTranslate(x, y);
                 break;
-
-            case STOP:
-                has_moved = false;
+                
+            case PREPARE_ROULEAU:
+                imageEdio.setImage(imageRouleau.getImage());
+                has_moved = true;
+                break;
+                
+            case ATTACK_COUTEAU:
+                imageEdio.setImage(imageNone.getImage());
+                has_moved = true;
+                break;
+                
+            case ATTACK_ROULEAU:
+                imageEdio.setImage(imageNone.getImage());
+                has_moved = true;
                 break;
         }
         return has_moved;
     }
 
-    private void smoothTranslate(int x, int y) {
-        TranslateTransition transition = new TranslateTransition();
-        transition.setNode(imageEdio);
-        transition.setToX(getX() * Game.TILE_SIZE + 3);
-        transition.setToY(y * Game.TILE_SIZE + 3);
-        transition.setDuration(Duration.millis(80));
-        transition.play();
-    }
-
+    //Accesseurs
     public int getX() {
         return x;
     }
-
     public int getY() {
         return y;
     }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
-
+    
     javafx.scene.Node getNode() {
         return imageEdio;
     }
-
-    public void setAddListSequence(Integer integer) {
-        tabSequence.add(integer);
+    
+    /**
+     * Retourne l'action à effectuer
+     * @return EdioAction l'action à effectuer
+     */
+    public EdioAction getEdioAction(){
+        return sequenceActions[indexAction];
     }
-
-    public ArrayList<Integer> getTabSequence() {
-        return tabSequence;
-    }
-
+    
     @Override
     public String toString() {
         return "Edio{" +
                 "x=" + x +
                 ", y=" + y +
-                ", orientation=" + orientation +
-                ", tabSequence=" + tabSequence +
-                ", sequence=" + Arrays.toString(sequence) +
-                ", imageEdio=" + imageEdio +
-                ", imageCouteau=" + imageCouteau +
-                ", imageRouleau=" + imageRouleau +
-                '}';
+                "}";
     }
 }
