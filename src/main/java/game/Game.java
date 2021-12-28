@@ -116,12 +116,12 @@ public class Game<value> {
         if (value == 1) {
             //Génération des murs, de Edio et du Monde
             walls = levelGame.getWalls("src/main/resources/level/Level1.txt");
-            lemonde = levelGame.getLeMondeLevel1(this);
+            lemonde = levelGame.getLeMondeLevel1();
             edio = levelGame.getEdioLevel1();
         } else if (value == 2) {
             //Génération des murs, de Edio et du Monde
             walls = levelGame.getWalls("src/main/resources/level/Level2.txt");
-            levelGame.getLeMondeLevel1(this);
+            levelGame.getLeMondeLevel2();
             edio = levelGame.getEdioLevel2();
         }
 

@@ -76,7 +76,16 @@ public class LevelGame implements Level {
         return edio;
     }
 
-    public Lemonde getLeMondeLevel1(Game game) {
+    public Lemonde getLeMondeLevel1() {
+        int[][] tabCases = {
+                {1, 2},
+                {8, 8}
+        };
+        Lemonde lemonde = new Lemonde(tabCases);
+        return lemonde;
+    }
+    
+    public Lemonde getLeMondeLevel2() {
         int[][] tabCases = {
                 {1, 2},
                 {8, 8}
@@ -109,17 +118,4 @@ public class LevelGame implements Level {
                 sequenceMouvements);
         return edio;
     }
-
-    /*public void adjustWalls(Game game) {
-        game.getTile(2, 9).setState(
-                game.isVisited(2, 10) > 0
-                ? TileState.WALL
-                : TileState.EMPTY
-        );
-        game.getTile(12, 7).setState(
-                (game.isVisited(2, 10) == 1 && game.isVisited(12, 4) != 1)
-                ? TileState.EMPTY
-                : TileState.WALL
-        );
-    }*/
 }
