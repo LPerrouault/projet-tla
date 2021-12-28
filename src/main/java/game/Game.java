@@ -215,23 +215,12 @@ public class Game<value> {
                     endGame(false);
                 }
             });
-
-            // Mise à jour de visited
-            int value = visited[player_y * BOARD_WIDTH + player_x] + 1;
-            if (value > 2) {
-                value = 1;
-            }
-
-            visited[player_y * BOARD_WIDTH + player_x] = value;
-
-            // Mise à jour de la visibilité des murs
-            levelGame.adjustWalls(this);
-
+            
             //Si le joueur marche sur une case de lemonde
             int j, i = 0;
             for (int[] laCase : lemonde.getCases()) {
                 if (player_x == laCase[0] && player_y == laCase[1]
-                        && isVisited(laCase[0], laCase[1]) == 1) {
+                        && isVisited(laCase[0], laCase[1]) == 0) {
                     lemonde.setX(laCase[0] + 2);
                     lemonde.setY(laCase[1]);
                     //Arrêt des mouvements pendant quelques secondes
@@ -246,6 +235,17 @@ public class Game<value> {
 
                 }
             }
+
+            // Mise à jour de visited
+            int value = visited[player_y * BOARD_WIDTH + player_x] + 1;
+            if (value > 2) {
+                value = 1;
+            }
+
+            visited[player_y * BOARD_WIDTH + player_x] = value;
+
+            // Mise à jour de la visibilité des murs
+            levelGame.adjustWalls(this);
         }
 
     }
