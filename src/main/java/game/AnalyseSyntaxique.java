@@ -117,14 +117,21 @@ public class AnalyseSyntaxique {
             int caseMove = E();
             profondeur--;
             G();
+            edio.getSequenceActions().add(EdioAction.MOVE);
+            edio.getSequenceMouvements().add(caseMove);
             return edio;
         } else if (getTokenClass() == TokenClass.dioPrepare) {
             // production C -> dioPrepare(D G
             Token token = getToken();
             printNode("dioPrepare(");
             profondeur++;
-            String typeAttaque = D();
+            TokenClass typeAttaque = D();
             profondeur--;
+            if (typeAttaque == TokenClass.couteau) {
+                edio.getSequenceActions().add(EdioAction.PREPARE_COUTEAU);
+            } else if (typeAttaque == TokenClass.rouleau) {
+                edio.getSequenceActions().add(EdioAction.PREPARE_ROULEAU);
+            }
             G();
             return edio;
         } else if (getTokenClass() == TokenClass.dioAttaque) {
@@ -132,19 +139,24 @@ public class AnalyseSyntaxique {
             Token token = getToken();
             printNode("dioAttaque(");
             profondeur++;
-            String typeAttaque = D();
+            TokenClass typeAttaque = D();
             profondeur--;
             G();
+            if (typeAttaque == TokenClass.couteau) {
+                edio.getSequenceActions().add(EdioAction.ATTACK_COUTEAU);
+            } else if (typeAttaque == TokenClass.rouleau) {
+                edio.getSequenceActions().add(EdioAction.ATTACK_ROULEAU);
+            }
             return edio;
         }
         throw new UnexpectedTokenException("dioMove, dioPrepare, dioAttaque attendu");
     }
-    private String D() throws UnexpectedTokenException {
+    private TokenClass D() throws UnexpectedTokenException {
         if (getTokenClass() == TokenClass.couteau || getTokenClass() == TokenClass.rouleau) {
             // production D -> couteau ou D -> rouleau
             Token token = getToken();
             printNode(token.toString());
-            return token.getValue();
+            return token.getCl();
         }
         throw new UnexpectedTokenException("couteau ou rouleau attendu");
     }

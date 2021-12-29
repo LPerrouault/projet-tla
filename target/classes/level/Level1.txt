@@ -14,3 +14,20 @@ EEEWWWWWEWEWEWEWWWWD
 WWEWFEEEEWEEEWEEEEWD
 EEEWWWWWWWWWWWWWWWWW
 )
+dioActions(
+    dioMove(4) 
+    dioPrepare(couteau) 
+    dioAttaque(couteau)
+    dioMove(6)
+    dioPrepare(rouleau)
+    dioAttaque(rouleau)
+    dioMove(1)
+    dioPrepare(couteau)
+    dioAttaque(couteau)
+    dioMove(8)
+    dioPrepare(rouleau)
+    dioAttaque(rouleau)
+    dioMove(11)
+    dioPrepare(couteau)
+    dioAttaque(couteau)
+)
