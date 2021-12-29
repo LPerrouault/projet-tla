@@ -61,7 +61,7 @@ public class AnalyseSyntaxique {
             return;
         }
 
-        throw new UnexpectedTokenException("Fonction attendue");
+        throw new UnexpectedTokenException("dioActions ou setWalls attendu");
     }
 
     private void A() throws UnexpectedTokenException {
@@ -91,7 +91,7 @@ public class AnalyseSyntaxique {
             return;
         }
 
-        throw new UnexpectedTokenException("attendu");
+        throw new UnexpectedTokenException("dioActions ou setWalls attendu");
     }
 
     private void B() throws UnexpectedTokenException {
@@ -108,7 +108,7 @@ public class AnalyseSyntaxique {
             return;
         }
 
-        throw new UnexpectedTokenException("intVal ou ( attendu");
+        throw new UnexpectedTokenException("dioMove, dioPrepare ou dioAttaque attendu");
     }
     private void B_prime() throws UnexpectedTokenException {
         if (getTokenClass() == TokenClass.dioMove ||
@@ -128,7 +128,7 @@ public class AnalyseSyntaxique {
             return;
         }
 
-        throw new UnexpectedTokenException("Fonction attendue");
+        throw new UnexpectedTokenException("dioMove, dioPrepare, dioAttaque ou ) attendu");
 
     }
     private void C() throws UnexpectedTokenException {
@@ -137,8 +137,8 @@ public class AnalyseSyntaxique {
 
             // production C -> dioMove(E G
 
-            getToken();
-            printNode("dioMove(");
+            Token token = getToken();
+            printNode(token.toString() + "(");
             profondeur++;
             E();
             profondeur--;
@@ -151,7 +151,7 @@ public class AnalyseSyntaxique {
             // production C -> fonction(D G
 
             Token token = getToken();
-            printNode(token.getValue());
+            printNode(token.toString() + "(");
             profondeur++;
             D();
             profondeur--;
@@ -160,7 +160,7 @@ public class AnalyseSyntaxique {
             return;
         }
 
-        throw new UnexpectedTokenException("Fonction attendue");
+        throw new UnexpectedTokenException("dioMove, dioPrepare, dioAttaque attendu");
     }
     private void D() throws UnexpectedTokenException {
 
@@ -169,7 +169,7 @@ public class AnalyseSyntaxique {
             // production D -> couteau ou D -> rouleau
 
             Token token = getToken();
-            printNode(token.getValue());
+            printNode(token.toString());
 
             return;
 
@@ -202,7 +202,7 @@ public class AnalyseSyntaxique {
             return;
         }
 
-        throw new UnexpectedTokenException("string attendu");
+        throw new UnexpectedTokenException("stringVal attendu");
     }
 
     private void G() throws UnexpectedTokenException {
