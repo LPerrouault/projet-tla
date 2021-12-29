@@ -37,10 +37,10 @@ public class Main extends Application {
         ImageView imageEdio = new ImageView(SpritesLibrary.imgEdioCouteauLarge);
         menuPane.add(imageJaja, 0, 0, 1,4);
         menuPane.add(imageEdio, 3, 0,1,4);
-        Button btnLevel1 = new Button("Level-1");
+        Button btnLevel1 = new Button("1");
         btnLevel1.setPadding(new Insets(15,20,15,20));
         menuPane.add(btnLevel1, 2,2);
-        Button btnLevel2 = new Button("Level-2");
+        Button btnLevel2 = new Button("2");
         btnLevel2.setPadding(new Insets(15,20,15,20));
         menuPane.add(btnLevel2, 2,3);
         menuPane.setPrefWidth(100);
