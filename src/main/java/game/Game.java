@@ -48,6 +48,8 @@ public class Game<value> {
     private Edio edio;
     //Affichage de Le Monde
     private Lemonde lemonde;
+    //Contenu des murs
+    private char[] walls;
 
     //Affichage des obstacles créés par Edio
     private List<Obstacle> obstacles;
@@ -99,7 +101,7 @@ public class Game<value> {
         this.value = value;
     }
 
-    void start(int value) throws IOException {
+    void start(int value) throws IOException, Exception {
         setValue(value);
         Arrays.fill(visited, 0);
 
@@ -110,20 +112,37 @@ public class Game<value> {
                 tiles[y * BOARD_WIDTH + x] = new Tile(x, y, pane);
             }
         }
-        char[] walls = null;
-        obstacles = new ArrayList<>();
         //Choix du niveau
         if (value == 1) {
-            //Génération des murs, de Edio et du Monde
-            walls = levelGame.getWalls("src/main/resources/level/Level1.txt");
-            lemonde = levelGame.getLeMondeLevel1();
-            edio = levelGame.getEdioLevel1();
+            //Génération de LeMonde
+            int[][] tabCases = {
+                {1, 2},
+                {8, 8}
+            };
+            lemonde = new Lemonde(tabCases);
         } else if (value == 2) {
-            //Génération des murs, de Edio et du Monde
-            walls = levelGame.getWalls("src/main/resources/level/Level2.txt");
-            levelGame.getLeMondeLevel2();
-            edio = levelGame.getEdioLevel2();
+            //Génération de LeMonde
+            int[][] tabCases = {
+                {1, 2},
+                {8, 8}
+            };
+            lemonde = new Lemonde(tabCases);
         }
+        try {
+        //Analyse lexicale
+        String levelFileName = "src/main/resources/level/Level" + value + ".txt";
+        String levelFileContent = levelGame.getFile(levelFileName);
+        List<Token> tokens = new AnalyseLexicale().analyse(levelFileContent);
+        //Analyse syntaxique
+        levelGame = new AnalyseSyntaxique().analyse(tokens);
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
+        
+        //Génération des murs et de Edio après création du niveau
+        //par analyse lexicale et syntaxique
+        walls = levelGame.getWalls();
+        edio = levelGame.getEdio();
 
         for (int i = 0; i < walls.length; i++) {
             switch (walls[i]) {
@@ -215,7 +234,7 @@ public class Game<value> {
                     endGame(false);
                 }
             });
-            
+
             //Si le joueur marche sur une case de lemonde
             int j, i = 0;
             for (int[] laCase : lemonde.getCases()) {
@@ -243,9 +262,6 @@ public class Game<value> {
             }
 
             visited[player_y * BOARD_WIDTH + player_x] = value;
-
-            // Mise à jour de la visibilité des murs
-            levelGame.adjustWalls(this);
         }
 
     }

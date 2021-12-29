@@ -8,7 +8,6 @@ game\Lemonde.class
 game\AnalyseSyntaxique.class
 game\TestAnalyseLexicale.class
 module-info.class
-game\Level.class
 game\UnexpectedTokenException.class
 game\AnalyseLexicale.class
 game\IllegalCharacterException.class

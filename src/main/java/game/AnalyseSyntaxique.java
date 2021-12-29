@@ -12,14 +12,16 @@ public class AnalyseSyntaxique {
     effectue l'analyse syntaxique à partir de la liste de tokens
     et retourne la valeur de l'expression
      */
-    public void analyse(List<Token> tokens) throws Exception {
+    public LevelGame analyse(List<Token> tokens) throws Exception {
         this.tokens = tokens;
         pos = 0;
-        S();
+        LevelGame level = new LevelGame();
+        level = S(level);
         if (pos != tokens.size()) {
             System.out.println("L'analyse syntaxique s'est terminé avant l'examen de tous les tokens");
             throw new IncompleteParsingException();
         }
+        return level;
     }
 
     /*
@@ -28,206 +30,177 @@ public class AnalyseSyntaxique {
 
       */
 
-    private void S() throws UnexpectedTokenException {
+    private LevelGame S(LevelGame level) throws UnexpectedTokenException {
 
         if (getTokenClass() == TokenClass.dioActions || getTokenClass() == TokenClass.setWalls) {
-
             // production S -> AS'
-
             profondeur++;
-            A();
+            level = A(level);
             profondeur--;
-            S_prime();
-            return;
+            level = S_prime(level);
+            return level;
         }
         throw new UnexpectedTokenException("Fonction attendue");
     }
 
-    private void S_prime() throws UnexpectedTokenException {
-
-        if (getTokenClass() == TokenClass.dioActions || getTokenClass() == TokenClass.setWalls) {
-
+    private LevelGame S_prime(LevelGame level) throws UnexpectedTokenException {
+        if (getTokenClass() == TokenClass.dioActions || getTokenClass() == TokenClass.setWalls){
             // production S' -> S
-
-            S();
+            level = S(level);
             profondeur--;
-            return;
-        }
-
-        if (isEOF()) {
-
+            return level;
+        } else if (isEOF()) {
             // production S' -> epsilon
-
-            return;
+            return level;
         }
-
         throw new UnexpectedTokenException("dioActions ou setWalls attendu");
     }
 
-    private void A() throws UnexpectedTokenException {
-
+    private LevelGame A(LevelGame level) throws UnexpectedTokenException {
+        //Contient la liste des actions de Edio, création d'un objet de cette classe
        if (getTokenClass() == TokenClass.dioActions) {
-
             // production A -> dioActions(B G
-
             getToken();
             printNode("dioActions(");
-            B();
+            Edio edio = new Edio();
+            edio = B(edio);
             profondeur--;
             G();
-
-            return;
-        }
-
-        if (getTokenClass() == TokenClass.setWalls) {
-
+            level.setEdio(edio);
+            return level;
+        } else if (getTokenClass() == TokenClass.setWalls){
             // production A -> setWalls(F G
             getToken();
             printNode("setWalls(");
             profondeur++;
-            F();
+            String walls = F();
             profondeur--;
             G();
-            return;
+            level.setWalls(walls.toCharArray());
+            return level;
         }
-
         throw new UnexpectedTokenException("dioActions ou setWalls attendu");
     }
 
-    private void B() throws UnexpectedTokenException {
-
+    private Edio B(Edio edio) throws UnexpectedTokenException {
         if (getTokenClass() == TokenClass.dioMove || getTokenClass() == TokenClass.dioPrepare || getTokenClass() == TokenClass.dioAttaque) {
-
             // production B -> CB'
-
             profondeur++;
-            C();
+            edio = C(edio);
             profondeur--;
-            B_prime();
-
-            return;
+            edio = B_prime(edio);
+            return edio;
         }
 
         throw new UnexpectedTokenException("dioMove, dioPrepare ou dioAttaque attendu");
     }
-    private void B_prime() throws UnexpectedTokenException {
+    private Edio B_prime(Edio edio) throws UnexpectedTokenException {
         if (getTokenClass() == TokenClass.dioMove ||
                 getTokenClass() == TokenClass.dioPrepare || getTokenClass() == TokenClass.dioAttaque) {
-
             // production B' -> B
-
-            B();
+            edio = B(edio);
             profondeur--;
-
-            return;
-        }
-
-        if(getTokenClass() == TokenClass.rightPar){
+            return edio;
+        } else if(getTokenClass() == TokenClass.rightPar){
             // production B' -> epsilon
-
-            return;
+            return edio;
         }
-
         throw new UnexpectedTokenException("dioMove, dioPrepare, dioAttaque ou ) attendu");
-
     }
-    private void C() throws UnexpectedTokenException {
-
+    
+    private Edio C(Edio edio) throws UnexpectedTokenException {
         if (getTokenClass() == TokenClass.dioMove) {
-
             // production C -> dioMove(E G
-
             Token token = getToken();
-            printNode(token.toString() + "(");
+            printNode("dioMove(");
             profondeur++;
-            E();
+            int caseMove = E();
             profondeur--;
             G();
-            return;
-        }
-
-        if (getTokenClass() == TokenClass.dioPrepare || getTokenClass() == TokenClass.dioAttaque) {
-
-            // production C -> fonction(D G
-
+            return edio;
+        } else if (getTokenClass() == TokenClass.dioPrepare) {
+            // production C -> dioPrepare(D G
             Token token = getToken();
-            printNode(token.toString() + "(");
+            printNode("dioPrepare(");
             profondeur++;
-            D();
+            String typeAttaque = D();
             profondeur--;
             G();
-
-            return;
+            return edio;
+        } else if (getTokenClass() == TokenClass.dioAttaque) {
+            // production C -> dioAttaque(D G
+            Token token = getToken();
+            printNode("dioAttaque(");
+            profondeur++;
+            String typeAttaque = D();
+            profondeur--;
+            G();
+            return edio;
         }
-
         throw new UnexpectedTokenException("dioMove, dioPrepare, dioAttaque attendu");
     }
-    private void D() throws UnexpectedTokenException {
-
+    private String D() throws UnexpectedTokenException {
         if (getTokenClass() == TokenClass.couteau || getTokenClass() == TokenClass.rouleau) {
-
             // production D -> couteau ou D -> rouleau
-
             Token token = getToken();
             printNode(token.toString());
-
-            return;
-
+            return token.getValue();
         }
-
         throw new UnexpectedTokenException("couteau ou rouleau attendu");
     }
-    private void E() throws UnexpectedTokenException {
-
+    
+    private int E() throws UnexpectedTokenException {
         if (getTokenClass() == TokenClass.intVal) {
-
             // production E -> intVal
-
             Token token = getToken();
             printNode(token.toString());
-
-            return;
+            return Integer.parseInt(token.getValue());
         }
-
         throw new UnexpectedTokenException("intVal attendu");
     }
 
-    private void F() throws UnexpectedTokenException {
-
+    private String F() throws UnexpectedTokenException {
         if (getTokenClass() == TokenClass.stringVal) {
-
             // production F -> string
             Token tokString = getToken();
             printNode(tokString.toString());
-            return;
+            return tokString.getValue();
         }
-
         throw new UnexpectedTokenException("stringVal attendu");
     }
 
+    /**
+     * Vérifie si le Token est rightPar (parenthèse gauche)
+     * @throws UnexpectedTokenException Le Token n'est pas rightPar
+     */
     private void G() throws UnexpectedTokenException {
         if(getTokenClass() == TokenClass.rightPar){
             getToken();
             printNode(")");
             return;
         }
-        throw new UnexpectedTokenException(") attendue");
+        throw new UnexpectedTokenException("rightPar attendu");
     }
+    
     /*
 
     autres méthodes
 
      */
 
+    /**
+     * Vérifie si la lecture a atteint la fin du fichier
+     * @return true si fin du fichier
+     */
     private boolean isEOF() {
         return pos >= tokens.size();
     }
 
-    /*
+    /**
      * Retourne la classe du prochain token à lire
      * SANS AVANCER au token suivant
+     * @return TokenClass la classe du prochain Token
      */
-
     private TokenClass getTokenClass() {
         if (pos >= tokens.size()) {
             return null;
@@ -236,9 +209,10 @@ public class AnalyseSyntaxique {
         }
     }
 
-    /*
+    /**
      * Retourne le prochain token à lire
      * ET AVANCE au token suivant
+     * @return Token le prochain Token
      */
     private Token getToken() {
         if (pos >= tokens.size()) {
@@ -250,6 +224,10 @@ public class AnalyseSyntaxique {
         }
     }
 
+    /**
+     * Affiche une chaîne en fonction de la profondeur dans l'analyse
+     * @param s La chaîne à afficher
+     */
     private void printNode(String s) {
         for(int i=0;i<profondeur;i++) {
             System.out.print("    ");

@@ -12,7 +12,7 @@ public class Edio {
     //Index dans la séquence d'actions
     private int indexAction;
     //Séquence d'instruction
-    private EdioAction[] sequenceActions;
+    private ArrayList<EdioAction> sequenceActions;
 
     //Index dans la séquence de mouvement
     private int indexMouvement;
@@ -24,6 +24,24 @@ public class Edio {
     private ImageView imageNone = new ImageView(SpritesLibrary.imgEdioSmall);
     private ImageView imageCouteau = new ImageView(SpritesLibrary.imgEdioCouteau);
     private ImageView imageRouleau = new ImageView(SpritesLibrary.imgEdioRoadroller);
+    
+    /**
+     * Constructeur de la classe Edio sans paramètres
+     * pour l'analyse syntaxique
+     */
+    public Edio() {
+        this.x = 19;    //edio est positionné tout à gauche de l'écran
+        this.y = 11;    //edio est positionné en bas de l'écran
+        
+        this.sequenceActions = new ArrayList<>(); //La séquence des actions de edio
+        this.sequenceMouvements = new ArrayList<>(); //Contient les lignes auxquelles
+        //edio doit se déplacer lorsqu'il y a une EdioAction MOVE
+        
+        this.indexMouvement = 0;
+        this.indexAction = 0;
+        this.imageEdio.setViewOrder(1); //Edio est visible par dessus les murs
+        translate(this.x, this.y);
+    }
 
     /**
      * Constructeur de la classe Edio
@@ -33,7 +51,7 @@ public class Edio {
      * @param sequenceMouvements Lors que Edio effectue l'action MOVE, consulte
      * la case à laquelle il doit se déplacer
      */
-    public Edio(int y, EdioAction[] sequenceActions, ArrayList<Integer> sequenceMouvements) {
+    public Edio(int y, ArrayList<EdioAction> sequenceActions, ArrayList<Integer> sequenceMouvements) {
         this.x = 19;    //edio est positionné tout à gauche de l'écran
         this.y = y;
 
@@ -58,14 +76,14 @@ public class Edio {
         boolean has_moved = false;
         do {
             has_moved = nextStep();
-            indexAction = (indexAction + 1) % sequenceActions.length;
+            indexAction = (indexAction + 1) % sequenceActions.size();
         } while (!has_moved);
     }
     
     private boolean nextStep() {
         boolean has_moved = false;
         Integer new_y;
-        switch (sequenceActions[indexAction]) {
+        switch (sequenceActions.get(indexAction)) {
             case MOVE:
                 imageEdio.setImage(imageNone.getImage());
                 this.y = sequenceMouvements.get(indexMouvement);
@@ -104,6 +122,23 @@ public class Edio {
     public int getY() {
         return y;
     }
+    public ArrayList<EdioAction> getSequenceActions() {
+        return sequenceActions;
+    }
+    public ArrayList<Integer> getSequenceMouvements() {
+        return sequenceMouvements;
+    }
+    
+    public void setY(int y) {
+        this.y = y;
+    }
+    public void setSequenceActions(ArrayList<EdioAction> sequenceActions) {
+        this.sequenceActions = sequenceActions;
+    }
+    public void setSequenceMouvements(ArrayList<Integer> sequenceMouvements) {
+        this.sequenceMouvements = sequenceMouvements;
+    }
+    
     
     javafx.scene.Node getNode() {
         return imageEdio;
@@ -114,7 +149,7 @@ public class Edio {
      * @return EdioAction l'action à effectuer
      */
     public EdioAction getEdioAction(){
-        return sequenceActions[indexAction];
+        return sequenceActions.get(indexAction);
     }
     
     @Override

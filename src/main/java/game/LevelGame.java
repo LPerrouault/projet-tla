@@ -1,20 +1,41 @@
 package game;
 
-import game.EdioAction;
-
-import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Scanner;
-import java.util.Timer;
 
-public class LevelGame implements Level {
+public class LevelGame{
+    private char[] walls;
+    private Edio edio;
+    
+    public LevelGame(){
+    }
+    public LevelGame(char[] walls, Edio edio){
+        this.walls = walls;
+        this.edio = edio;
+    }
+    
+    public char[] getWalls(){
+        return walls;
+    }
+    public Edio getEdio(){
+        return edio;
+    }
+    public void setWalls(char[] walls){
+        this.walls = walls;
+    }
+    public void setEdio(Edio edio){
+        this.edio = edio;
+    }
 
-    public char[] getWalls(String fileName) throws FileNotFoundException {
+    /**
+     * Retourne le contenu du fichier du niveau
+     * @param fileName
+     * @return
+     * @throws FileNotFoundException 
+     */
+    public String getFile(String fileName) throws FileNotFoundException {
         String line = null;
         try ( var scanner = new Scanner(new File(fileName))) {
             while (scanner.hasNext()) {
@@ -23,30 +44,10 @@ public class LevelGame implements Level {
                 }
                 line += scanner.nextLine();
             }
-            line = line.replace("setWalls", "");
-            line = line.replace("(", "");
-            line = line.replace(")", "");
-            line = line.replace(" ", "");
-
         }
-        return line.toCharArray();
+        return line;
     }
-
-    public void setWalls(int value, String level) {
-        String filneme = "level" + value + ".txt";
-        File file = new File("src/main/resources/level/" + filneme);
-
-        try {
-            FileWriter fw = new FileWriter(file.getName());
-            BufferedWriter bw = new BufferedWriter(fw);
-            bw.write(level);
-            bw.close();
-        } catch (IOException e) {
-            System.out.println("Erreur création du fichier ");
-            System.out.println(level);
-        }
-    }
-
+    /*
     public Edio getEdioLevel1() {
         ArrayList<Integer> sequenceMouvements = new ArrayList<Integer>();
         sequenceMouvements.add(4);
@@ -117,5 +118,5 @@ public class LevelGame implements Level {
                 },
                 sequenceMouvements);
         return edio;
-    }
+    }*/
 }

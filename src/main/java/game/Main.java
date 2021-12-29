@@ -74,7 +74,7 @@ public class Main extends Application {
             // démarre le jeu
             try {
                 game.start(1);
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
@@ -87,8 +87,8 @@ public class Main extends Application {
             game.setLevel(new LevelGame());
             try {
                 game.start(2);
-            } catch (IOException e) {
-                e.printStackTrace();
+            } catch (Exception ex) {
+                ex.printStackTrace();
             }
             primaryStage.sizeToScene();
         });
@@ -106,7 +106,7 @@ public class Main extends Application {
                 // touche r : redémarre le niveau en cours
                 try {
                     game.start(game.getValue());
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
