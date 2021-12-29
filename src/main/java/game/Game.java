@@ -46,15 +46,18 @@ public class Game<value> {
 
     //Affichage de Edio
     private Edio edio;
+    //Affichage de Le Monde
+    private Lemonde lemonde;
 
     //Affichage des obstacles créés par Edio
     private List<Obstacle> obstacles;
     //Contient l'index des Obstacles à supprimer dans obstacles
-    private List<Integer> listObstaclesASuppr = new ArrayList<>();;
+    private List<Integer> listObstaclesASuppr = new ArrayList<>();
+    ;
 
     // éléments de l'interface utilisateur
     private Label label;
-    private Pane pane;
+    public Pane pane;
 
     // Jeu en cours ou terminé
     private boolean running;
@@ -111,12 +114,14 @@ public class Game<value> {
         obstacles = new ArrayList<>();
         //Choix du niveau
         if (value == 1) {
-            //Génération des murs et de Edio
+            //Génération des murs, de Edio et du Monde
             walls = levelGame.getWalls("src/main/resources/level/Level1.txt");
+            lemonde = levelGame.getLeMondeLevel1();
             edio = levelGame.getEdioLevel1();
         } else if (value == 2) {
-            //Génération des murs et de Edio
+            //Génération des murs, de Edio et du Monde
             walls = levelGame.getWalls("src/main/resources/level/Level2.txt");
+            levelGame.getLeMondeLevel2();
             edio = levelGame.getEdioLevel2();
         }
 
@@ -148,6 +153,7 @@ public class Game<value> {
         ObservableList<Node> children = pane.getChildren();
         children.add(playerNode);
         children.add(edio.getNode());
+        children.add(lemonde.getNode());
         running = true;
     }
 
@@ -209,6 +215,26 @@ public class Game<value> {
                     endGame(false);
                 }
             });
+            
+            //Si le joueur marche sur une case de lemonde
+            int j, i = 0;
+            for (int[] laCase : lemonde.getCases()) {
+                if (player_x == laCase[0] && player_y == laCase[1]
+                        && isVisited(laCase[0], laCase[1]) == 0) {
+                    lemonde.setX(laCase[0] + 2);
+                    lemonde.setY(laCase[1]);
+                    //Arrêt des mouvements pendant quelques secondes
+                    try {
+                        Thread.sleep(4000);
+                        //Le monde redisparait
+                        lemonde.setX(-1);
+                        lemonde.setY(-1);
+                    } catch (InterruptedException ex) {
+                        Thread.currentThread().interrupt();
+                    }
+
+                }
+            }
 
             // Mise à jour de visited
             int value = visited[player_y * BOARD_WIDTH + player_x] + 1;
