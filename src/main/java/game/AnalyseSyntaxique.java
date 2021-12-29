@@ -49,7 +49,6 @@ public class AnalyseSyntaxique {
 
             // production S' -> S
 
-            profondeur++;
             S();
             profondeur--;
             return;
@@ -73,7 +72,6 @@ public class AnalyseSyntaxique {
 
             getToken();
             printNode("dioActions(");
-            profondeur++;
             B();
             profondeur--;
             G();
@@ -118,7 +116,6 @@ public class AnalyseSyntaxique {
 
             // production B' -> B
 
-            profondeur++;
             B();
             profondeur--;
 
