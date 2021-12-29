@@ -143,6 +143,7 @@ public class Game<value> {
         //par analyse lexicale et syntaxique
         walls = levelGame.getWalls();
         edio = levelGame.getEdio();
+        obstacles = new ArrayList<>();
 
         for (int i = 0; i < walls.length; i++) {
             switch (walls[i]) {
@@ -209,9 +210,7 @@ public class Game<value> {
     }
 
     void playerRefresh() {
-
-        // déplacement de l'élément graphique du joueur
-        // déplacement avec transition visuelle
+        // déplacement du joueur avec transition visuelle
         TranslateTransition transition = new TranslateTransition();
         transition.setNode(playerNode);
         transition.setToX(player_x * Game.TILE_SIZE - 3);
@@ -227,7 +226,6 @@ public class Game<value> {
             tiles[player_y * BOARD_WIDTH + player_x].setState(TileState.EMPTY);
             endGame(true);
         } else {
-
             // test collision avec fantome
             obstacles.forEach(ghost -> {
                 if (ghost.getX() == player_x && ghost.getY() == player_y) {
@@ -254,7 +252,7 @@ public class Game<value> {
 
                 }
             }
-
+            
             // Mise à jour de visited
             int value = visited[player_y * BOARD_WIDTH + player_x] + 1;
             if (value > 2) {
@@ -263,7 +261,6 @@ public class Game<value> {
 
             visited[player_y * BOARD_WIDTH + player_x] = value;
         }
-
     }
 
     Tile getTile(int x, int y) {
@@ -284,6 +281,7 @@ public class Game<value> {
 
     public void animate() {
         if (running) {
+            //obstacles.toString();
             //Animation de edio
             edio.nextMove();
             //Création des obstacles si Edio effectue ATTACK_COUTEAU et ATTACK_ROULEAU
@@ -303,6 +301,7 @@ public class Game<value> {
                 obstacles.add(new Obstacle(edio.getY(), 2));
                 children.add(obstacles.get(obstacles.size() - 1).getNode());
             }
+            
             //Animation des obstacles, pour chaque obstacle
             obstacles.forEach(obstacle -> {
                 //Si l'obtacle atteint la colonne -20 (hors du plateau de jeu)
