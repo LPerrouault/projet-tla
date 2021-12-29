@@ -7,7 +7,7 @@ public class TestAnalyseLexicale {
 	public static void main(String[] args) {
 		test("playerStart(2,1)");
 		test("playerStart (2,1)");
-                test("playerStart(2,1) dioStart(2,5) dioActions(dioMove(5,9) dioPrepare(couteau) dioAttaque(couteau))");
+		test("playerStart(2,1) dioStart(2,5) dioActions(dioMove(5,9) dioPrepare(couteau) dioAttaque(couteau))");
 
 	}
 

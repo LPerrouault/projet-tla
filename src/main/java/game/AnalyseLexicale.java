@@ -16,16 +16,15 @@ public class AnalyseLexicale {
 		// paramètres de l'algorithme d'analyse lexicale
 
 		this.TRANSITIONS = new Integer[][]{
-			//         espace chiffre lettre   (    )   ,
-			/* 0 */  {      0,     1,     2,null, 104, 105}, //début de lecture
-			/* 1 */  {    101,     1,   101, 101, 101, 101}, //après un chiffre
-			/* 2 */  {    103,     2,     2, 102, 103, 103}  //après une lettre
+			//         espace chiffre lettre   (    )
+			/* 0 */  {      0,     1,     2,null, 104}, //début de lecture
+			/* 1 */  {    101,     1,   101, 101, 101}, //après un chiffre
+			/* 2 */  {    103,     2,     2, 102, 103}  //après une lettre
 
 			// 101 accepte entier                   (goBack : oui)
 			// 102 accepte nom de fonction          (goBack : non)
 			// 103 accepte identifiant              (goBack : oui)
 			// 104 accepte )                        (goBack : non)
-                        // 105 accepte ,                        (goBack : non)
 		};
 
 		this.ETAT_INITIAL = 0;
@@ -49,7 +48,6 @@ public class AnalyseLexicale {
 		if (Character.isLetter(c)) return 2;
 		if (c == '(') return 3;
 		if (c == ')') return 4;
-                if (c == ',') return 5;
 		throw new IllegalCharacterException();
 	}
 
@@ -77,14 +75,10 @@ public class AnalyseLexicale {
 				// un état d'acceptation a été atteint
 				// -> création du token correspondant
 				if (e == 101) {
-					tokens.add(new Token(TokenClass.intVal));
+					tokens.add(new Token(TokenClass.intVal, buf));
                                         sr.goBack();
 				} else if (e == 102) {
-                                    if (buf.equals("playerStart")) {
-                                        tokens.add(new Token(TokenClass.playerStart));
-                                    } else if (buf.equals("dioStart")) {
-                                        tokens.add(new Token(TokenClass.dioStart));
-                                    } else if (buf.equals("dioActions")) {
+                                    if (buf.equals("dioActions")) {
                                         tokens.add(new Token(TokenClass.dioActions));
                                     } else if (buf.equals("dioMove")) {
                                         tokens.add(new Token(TokenClass.dioMove));
@@ -92,8 +86,6 @@ public class AnalyseLexicale {
                                         tokens.add(new Token(TokenClass.dioPrepare));
                                     } else if (buf.equals("dioAttaque")) {
                                         tokens.add(new Token(TokenClass.dioAttaque));
-                                    } else if (buf.equals("playerWait")) {
-                                        tokens.add(new Token(TokenClass.playerWait));
                                     } else if (buf.equals("setWalls")) {
                                         tokens.add(new Token(TokenClass.setWalls));
                                     }
@@ -102,13 +94,13 @@ public class AnalyseLexicale {
                                         tokens.add(new Token(TokenClass.couteau));
                                     } else if (buf.equals("rouleau")) {
                                         tokens.add(new Token(TokenClass.rouleau));
+                                    } else {
+                                        tokens.add(new Token(TokenClass.stringVal, buf));
                                     }
                                     sr.goBack();
 				} else if (e == 104) {
 					tokens.add(new Token(TokenClass.rightPar));
-				} else if (e == 105) {
-                                        tokens.add(new Token(TokenClass.comma));
-                                }
+				}
 				// un état d'acceptation a été atteint
 				// retourne à l'état 0
 				etat = 0;
