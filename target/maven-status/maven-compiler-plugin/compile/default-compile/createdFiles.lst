@@ -17,3 +17,4 @@ game\TileState.class
 game\TokenClass.class
 game\LevelGame.class
 game\LexicalErrorException.class
+game\TestAnalyseSyntaxique.class

@@ -2,25 +2,13 @@ package game;
 
 import java.util.List;
 
-public class TP4 {
+public class TestAnalyseSyntaxique {
 
 	public static void main(String[] args) {
 
-		testAnalyseLexicale("dioActions(dioMove(1))");
 		testAnalyseSyntaxique("dioActions(dioMove(1))");
-		/*
-		testAnalyseSyntaxique("1 + 2 * (3 + 4)");
-		testAnalyseSyntaxique("3 + (3 * 2)");
-		testAnalyseSyntaxique("3 + (3 *  ");
-		testAnalyseSyntaxique("3 + (3 * 2) )");
-		testAnalyseSyntaxique("1 + (6 + 1) * 10 + 2 * 3");
-		testAnalyseSyntaxique("3 + 2 + 7 * 3");
-		testAnalyseSyntaxique("(1 + 2 * 3) + 4");
-		testAnalyseSyntaxique("2 * (3 + 4)");
-		testAnalyseSyntaxique("(2)*37");
-		 */
-
-		testAnalyseSyntaxique("3 * 3 + 7 * 7 + 4");
+		testAnalyseSyntaxique("setWalls(XXOBSYZVZYVZUTCYCTZC)");
+		testAnalyseSyntaxique("setWalls(XXOBSYZVZYVZUTCYCTZC) dioActions(dioMove(5) dioPrepare(couteau) dioAttaque(couteau))");
 
 	}
 

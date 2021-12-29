@@ -187,7 +187,7 @@ public class AnalyseSyntaxique {
             // production E -> intVal
 
             Token token = getToken();
-            printNode(token.getValue());
+            printNode(token.toString());
 
             return;
         }
@@ -197,7 +197,7 @@ public class AnalyseSyntaxique {
 
     private void F() throws UnexpectedTokenException {
 
-        if (getTokenClass() == TokenClass.string) {
+        if (getTokenClass() == TokenClass.stringVal) {
 
             // production F -> string
             Token tokString = getToken();

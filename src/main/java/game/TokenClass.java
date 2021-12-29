@@ -1,8 +1,8 @@
 package game;
 
 public enum TokenClass {
-    intVal, rightPar, comma,string,
-    /*Fonctions:*/ playerStart, dioStart, dioActions, dioMove, dioPrepare, 
-    dioAttaque, playerWait, setWalls,
+    intVal, rightPar, stringVal,
+    /*Fonctions:*/ dioActions, dioMove, dioPrepare, 
+    dioAttaque, setWalls,
     /*Types d'attaque*/ couteau, rouleau
 }
