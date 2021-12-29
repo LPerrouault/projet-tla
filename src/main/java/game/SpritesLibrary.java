@@ -12,11 +12,25 @@ permettant d'afficher les différentes formes de carreaux et les éléments mobi
 
 public class SpritesLibrary {
 
-    static final Image imgPlayerLarge = new Image(SpritesLibrary.class.getResourceAsStream("/player_01.png"), 128, 128, true, false);
-    static final Image imgPlayerSmall = new Image(SpritesLibrary.class.getResourceAsStream("/player_01.png"), Game.TILE_SIZE + 6, Game.TILE_SIZE + 6, true, false);
-    static final Image imgGhost = new Image(SpritesLibrary.class.getResourceAsStream("/elementMetal045.png"), Game.TILE_SIZE - 6, Game.TILE_SIZE - 6, true, false);
-    static final Image imgWall = new Image(SpritesLibrary.class.getResourceAsStream("/block_05.png"), Game.TILE_SIZE, Game.TILE_SIZE, true, false);
-    static final Image imgExit = new Image(SpritesLibrary.class.getResourceAsStream("/crate_30.png"), Game.TILE_SIZE, Game.TILE_SIZE, true, false);
+    static final Image imgJajaLarge = new Image(SpritesLibrary.class.getResourceAsStream("/sprites/jaja.png"), 64, 64, true, false);
+    static final Image imgEdioLarge = new Image(SpritesLibrary.class.getResourceAsStream("/sprites/edio.png"), 64, 64, true, false);
+    static final Image imgJajaDefaite = new Image(SpritesLibrary.class.getResourceAsStream("/sprites/jaja_defaite.png"), 64, 64, true, false);
+
+    static final Image imgEdioCouteauLarge = new Image(SpritesLibrary.class.getResourceAsStream("/sprites/edio_couteau.png"), 64, 64, true, false);
+    static final Image imgJajaSmall = new Image(SpritesLibrary.class.getResourceAsStream("/sprites/jaja.png"), Game.TILE_SIZE + 6, Game.TILE_SIZE + 6, true, false);
+    static final Image imgEdioSmall = new Image(SpritesLibrary.class.getResourceAsStream("/sprites/edio.png"), Game.TILE_SIZE + 6, Game.TILE_SIZE + 6, true, false);
+    static final Image imgEdioCouteau = new Image(SpritesLibrary.class.getResourceAsStream("/sprites/edio_couteau.png"), Game.TILE_SIZE + 6, Game.TILE_SIZE + 6, true, false);
+    static final Image imgEdioRoadroller = new Image(SpritesLibrary.class.getResourceAsStream("/sprites/edio_roadroller.png"), Game.TILE_SIZE + 6, Game.TILE_SIZE + 6, true, false);
+    
+    static final Image imgLeMonde = new Image(SpritesLibrary.class.getResourceAsStream("/sprites/lemonde.png"), Game.TILE_SIZE, Game.TILE_SIZE, true, false);
+    
+    static final Image imgCouteau = new Image(SpritesLibrary.class.getResourceAsStream("/sprites/couteau.png"), Game.TILE_SIZE - 6, Game.TILE_SIZE - 6, true, false);
+    static final Image imgRouleau1 = new Image(SpritesLibrary.class.getResourceAsStream("/sprites/rouleau1.png"), Game.TILE_SIZE - 6, Game.TILE_SIZE - 6, true, false);
+    static final Image imgRouleau2 = new Image(SpritesLibrary.class.getResourceAsStream("/sprites/rouleau2.png"), Game.TILE_SIZE - 6, Game.TILE_SIZE - 6, true, false);
+    static final Image imgMur = new Image(SpritesLibrary.class.getResourceAsStream("/sprites/mur.png"), Game.TILE_SIZE, Game.TILE_SIZE, true, false);
+    static final Image imgZoneEnemi = new Image(SpritesLibrary.class.getResourceAsStream("/sprites/ennemi.png"), Game.TILE_SIZE, Game.TILE_SIZE, true, false);
+    static final Image imgVictoire = new Image(SpritesLibrary.class.getResourceAsStream("/sprites/victoire.png"), Game.TILE_SIZE, Game.TILE_SIZE, true, false);
+    static final Image imgEnnemi = new Image(SpritesLibrary.class.getResourceAsStream("/sprites/ennemi.png"), Game.TILE_SIZE, Game.TILE_SIZE, true, false);
     static final Image imgTile = generateImage(Color.gray(0.92), Color.gray(0.96));
 
     static Image generateImage(Color mainColor, Color borderColor) {

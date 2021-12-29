@@ -1,56 +1,71 @@
 package game;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.animation.TranslateTransition;
+import javafx.animation.*;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.util.Duration;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Game {
+import static java.lang.Thread.sleep;
 
-    final String message = "r : redémarrer la partie / q : quitter pour le menu";
+public class Game<value> {
+
+    final String message = " R : redémarrer la partie \n" + " \n Q : pour revenir au menu";
 
     final static int TILE_SIZE = 32;
     final static int BOARD_WIDTH = 20;
     final static int BOARD_HEIGHT = 14;
+    public int value;
 
     // grille
-
     protected Tile tiles[] = new Tile[BOARD_WIDTH * BOARD_HEIGHT];
 
     // détermine si un carreau a été parcouru par le joueur,
     // pour produire des effets "cachés" lorsque le joueur se déplace
     // par exemple changer la visibilité de certains murs
-
     protected int visited[] = new int[BOARD_WIDTH * BOARD_HEIGHT];
 
-    // coordonnées du joueur
-
+    //Coordonnées du joueur
     private int player_x;
     private int player_y;
     private ImageView playerNode;
 
-    // fantômes
+    //Affichage de Edio
+    private Edio edio;
+    //Affichage de Le Monde
+    private Lemonde lemonde;
+    //Contenu des murs
+    private char[] walls;
 
-    private List<Ghost> ghosts;
+    //Affichage des obstacles créés par Edio
+    private List<Obstacle> obstacles;
+    //Contient l'index des Obstacles à supprimer dans obstacles
+    private List<Integer> listObstaclesASuppr = new ArrayList<>();
+    ;
 
     // éléments de l'interface utilisateur
     private Label label;
-    private Pane pane;
+    public Pane pane;
 
-    // booléen jeu en cours ou terminé
+    // Jeu en cours ou terminé
     private boolean running;
 
-    // niveau en cours
-    Level level;
+    // Niveau en cours
+    LevelGame levelGame;
 
     Game(BorderPane borderPane) {
         pane = new Pane();
@@ -64,6 +79,7 @@ public class Game {
         borderPane.setBottom(label);
 
         Timeline timeline = new Timeline(
+                //A chaque KeyFrame, lance la fonction animate()
                 new KeyFrame(
                         Duration.millis(500),
                         event -> animate()
@@ -73,53 +89,91 @@ public class Game {
         timeline.play();
     }
 
-    void setLevel(Level level) {
-        this.level = level;
+    void setLevel(LevelGame levelGame) {
+        this.levelGame = levelGame;
     }
 
-    void start() {
+    public int getValue() {
+        return value;
+    }
 
-        label.setText(message);
+    public void setValue(int value) {
+        this.value = value;
+    }
 
+    void start(int value) throws IOException, Exception {
+        setValue(value);
         Arrays.fill(visited, 0);
 
         pane.getChildren().clear();
 
-        for(int y = 0; y < BOARD_HEIGHT; y++) {
-            for(int x = 0; x < BOARD_WIDTH; x++) {
-                tiles[y*BOARD_WIDTH + x] = new Tile(x, y, pane);
+        for (int y = 0; y < BOARD_HEIGHT; y++) {
+            for (int x = 0; x < BOARD_WIDTH; x++) {
+                tiles[y * BOARD_WIDTH + x] = new Tile(x, y, pane);
             }
         }
+        //Choix du niveau
+        if (value == 1) {
+            //Génération de LeMonde
+            int[][] tabCases = {
+                {1, 2},
+                {8, 8}
+            };
+            lemonde = new Lemonde(tabCases);
+        } else if (value == 2) {
+            //Génération de LeMonde
+            int[][] tabCases = {
+                {1, 2},
+                {8, 8}
+            };
+            lemonde = new Lemonde(tabCases);
+        }
+        try {
+            //Analyse lexicale
+            String levelFileName = "src/main/resources/level/Level" + value + ".txt";
+            String levelFileContent = levelGame.getFile(levelFileName);
+            List<Token> tokens = new AnalyseLexicale().analyse(levelFileContent);
+            //Analyse syntaxique
+            levelGame = new AnalyseSyntaxique().analyse(tokens);
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
 
-        char[] walls = level.getWall();
+        //Génération des murs et de Edio après création du niveau
+        //par analyse lexicale et syntaxique
+        walls = levelGame.getWalls();
+        edio = levelGame.getEdio();
+        obstacles = new ArrayList<>();
 
-        for(int i = 0; i<walls.length; i++) {
+        for (int i = 0; i < walls.length; i++) {
             switch (walls[i]) {
-                case '#':
+                case 'W':
                     tiles[i].setState(TileState.WALL);
                     break;
-                case '*':
+                case 'F':
                     tiles[i].setState(TileState.EXIT);
+                    break;
+                case 'D':
+                    tiles[i].setState(TileState.DIO);
+                    break;
+                case 'E':
+                    tiles[i].setState(TileState.EMPTY);
+                    break;
             }
         }
 
-        // fantômes
-
-        ghosts = level.getGhosts();
-
         // position initiale du joueur
-
         player_x = 0;
         player_y = 0;
 
-        playerNode = new ImageView(SpritesLibrary.imgPlayerSmall);
+        playerNode = new ImageView(SpritesLibrary.imgJajaSmall);
         playerNode.setTranslateX(player_x * Game.TILE_SIZE - 3);
         playerNode.setTranslateY(player_y * Game.TILE_SIZE - 3);
 
         ObservableList<Node> children = pane.getChildren();
         children.add(playerNode);
-        ghosts.forEach(ghost -> children.add(ghost.getNode()));
-
+        children.add(edio.getNode());
+        children.add(lemonde.getNode());
         running = true;
     }
 
@@ -128,35 +182,38 @@ public class Game {
     }
 
     void left() {
-        if (running && player_x>0 && isNotWall(player_x - 1, player_y)) {
+        if (running && player_x > 0 && isNotWall(player_x - 1, player_y)) {
             player_x--;
             playerRefresh();
         }
     }
+
     void right() {
-        if (running && player_x<BOARD_WIDTH-1 && isNotWall(player_x + 1, player_y)) {
+        if (running && player_x < BOARD_WIDTH - 1 && isNotWall(player_x + 1, player_y)) {
             player_x++;
             playerRefresh();
         }
     }
+
     void up() {
-        if (running && player_y>0 && isNotWall(player_x, player_y - 1)) {
+        if (running && player_y > 0 && isNotWall(player_x, player_y - 1)) {
             player_y--;
             playerRefresh();
         }
     }
+
     void down() {
-        if (running && player_y<BOARD_HEIGHT-1 && isNotWall(player_x, player_y + 1)) {
+        if (running && player_y < BOARD_HEIGHT - 1 && isNotWall(player_x, player_y + 1)) {
             player_y++;
             playerRefresh();
         }
     }
 
     void playerRefresh() {
-
-        // déplacement de l'élément graphique du joueur
-
-        // déplacement avec transition visuelle
+        //Le monde redisparait
+        lemonde.setX(-1);
+        lemonde.setY(-1);
+        // déplacement du joueur avec transition visuelle
         TranslateTransition transition = new TranslateTransition();
         transition.setNode(playerNode);
         transition.setToX(player_x * Game.TILE_SIZE - 3);
@@ -167,66 +224,144 @@ public class Game {
         // déplacement sans transition visuelle
         // playerNode.setTranslateX(player_x * Game.TILE_SIZE - 3);
         // playerNode.setTranslateY(player_y * Game.TILE_SIZE - 3);
-
         // le joueur a-t-il trouvé une sortie ?
         if (isExit(player_x, player_y)) {
-            tiles[player_y*BOARD_WIDTH + player_x].setState(TileState.EMPTY);
+            tiles[player_y * BOARD_WIDTH + player_x].setState(TileState.EMPTY);
             endGame(true);
         } else {
-
             // test collision avec fantome
-            ghosts.forEach(ghost -> {
+            obstacles.forEach(ghost -> {
                 if (ghost.getX() == player_x && ghost.getY() == player_y) {
                     endGame(false);
                 }
             });
 
+            //Si le joueur marche sur une case de lemonde
+            int j, i = 0;
+            for (int[] laCase : lemonde.getCases()) {
+                if (player_x == laCase[0] && player_y == laCase[1]
+                        && isVisited(laCase[0], laCase[1]) == 0) {
+                    lemonde.setX(laCase[0] + 1);
+                    lemonde.setY(laCase[1] - 1);
+                    //Arrêt des mouvements pendant quelques secondes
+                    try {
+                        Thread.sleep(4000);
+                    } catch (InterruptedException ex) {
+                        Thread.currentThread().interrupt();
+                    }
+
+                }
+            }
+
             // Mise à jour de visited
-            int value = visited[player_y*BOARD_WIDTH + player_x] + 1;
-            if (value > 2) value = 1;
+            int value = visited[player_y * BOARD_WIDTH + player_x] + 1;
+            if (value > 2) {
+                value = 1;
+            }
 
-            visited[player_y*BOARD_WIDTH + player_x] = value;
-
-            // Mise à jour de la visibilité des murs
-            level.adjustWalls(this);
+            visited[player_y * BOARD_WIDTH + player_x] = value;
         }
-
     }
 
     Tile getTile(int x, int y) {
-        return tiles[y*BOARD_WIDTH + x];
+        return tiles[y * BOARD_WIDTH + x];
     }
 
     int isVisited(int x, int y) {
-        return visited[y*BOARD_WIDTH + x];
+        return visited[y * BOARD_WIDTH + x];
     }
 
     boolean isNotWall(int x, int y) {
-        return tiles[y*BOARD_WIDTH + x].getState() != TileState.WALL;
+        return tiles[y * BOARD_WIDTH + x].getState() != TileState.WALL;
     }
 
     boolean isExit(int x, int y) {
-        return tiles[y*BOARD_WIDTH + x].getState() == TileState.EXIT;
+        return tiles[y * BOARD_WIDTH + x].getState() == TileState.EXIT;
     }
 
     public void animate() {
         if (running) {
-            ghosts.forEach(ghost -> {
-                ghost.nextMove();
-                // fin de jeu si un fantome vient toucher le joueur
-                if (ghost.getX() == player_x && ghost.getY() == player_y) {
-                    endGame(false);
+            //obstacles.toString();
+            //Animation de edio
+            edio.nextMove();
+            //Création des obstacles si Edio effectue ATTACK_COUTEAU et ATTACK_ROULEAU
+            ObservableList<Node> children = pane.getChildren();
+            if (edio.getEdioAction() == EdioAction.ATTACK_COUTEAU) {
+                //Crée trois couteaux et permet leur affichage
+                obstacles.add(new Obstacle(edio.getY() - 1, 0));
+                children.add(obstacles.get(obstacles.size() - 1).getNode());
+                obstacles.add(new Obstacle(edio.getY(), 0));
+                children.add(obstacles.get(obstacles.size() - 1).getNode());
+                obstacles.add(new Obstacle(edio.getY() + 1, 0));
+                children.add(obstacles.get(obstacles.size() - 1).getNode());
+            } else if (edio.getEdioAction() == EdioAction.ATTACK_ROULEAU) {
+                //Crée les deux parties du rouleau et permet leur affichage
+                obstacles.add(new Obstacle(edio.getY(), 1));
+                children.add(obstacles.get(obstacles.size() - 1).getNode());
+                obstacles.add(new Obstacle(edio.getY(), 2));
+                children.add(obstacles.get(obstacles.size() - 1).getNode());
+            }
+
+            //Animation des obstacles, pour chaque obstacle
+            obstacles.forEach(obstacle -> {
+                //Si l'obtacle atteint la colonne -20 (hors du plateau de jeu)
+                //(et suffisament loin pour que les obstacles ne se suppriment 
+                //pas avant pour je ne sais quelle raison?)
+                if (obstacle.getX() == -20) {
+                    //On ajoute l'index de l'obstacle à la liste des obstacles à supprimer
+                    listObstaclesASuppr.add(obstacles.indexOf(obstacle));
+                } else {
+                    //Sinon l'obstacle continue son parcours
+                    obstacle.nextMove();
+                    //Fin de jeu si un obstacle de vient toucher le joueur
+                    if (obstacle.getX() == player_x && obstacle.getY() == player_y) {
+                        endGame(false);
+                        System.out.println("Fin du jeu: obstacle détecté");
+                    }
                 }
+
             });
+            //Suppression des obstacles en trop, parcours de la liste des index
+            listObstaclesASuppr.forEach(index -> {
+                children.remove(obstacles.get(index).getNode());
+                obstacles.remove(obstacles.get(index));
+            });
+            //Remise à 0 de la liste
+            listObstaclesASuppr.clear();
         }
     }
 
     private void endGame(Boolean success) {
+        BorderPane borderPane = new BorderPane();
+        GridPane endGame = new GridPane();
+        Label action = new Label(message);
+        action.setFont(new Font(14));
+        Label status = new Label();
+        pane.getChildren().clear();
         if (success) {
-            label.setText("GAGNE ! " + message);
+            status.setText(" Victoire ! ");
+            status.setTextFill(Color.GREEN);
+            ImageView imageJaja = new ImageView(SpritesLibrary.imgJajaLarge);
+            endGame.add(imageJaja, 1, 1);
+            endGame.setMargin(imageJaja, new Insets(0, 0, 0, 80));
         } else {
-            label.setText("PERDU ! " + message);
+            status.setText(" Défaite ! ");
+            status.setTextFill(Color.RED);
+            ImageView imageJaja = new ImageView(SpritesLibrary.imgJajaDefaite);
+            endGame.add(imageJaja, 1, 1);
+            endGame.setMargin(imageJaja, new Insets(0, 0, 0, 80));
         }
+        endGame.add(status, 1, 0);
+        status.setFont(new Font(40));
+        endGame.add(action, 1, 2);
+        endGame.setMargin(status, new Insets(30, 10, 30, 10));
+        status.setAlignment(Pos.CENTER);
+        action.setAlignment(Pos.CENTER);
+        endGame.setMargin(action, new Insets(40, 10, 40, 10));
+        borderPane.setCenter(endGame);
+        borderPane.setMargin(endGame, new Insets(80, 0, 50, 200));
+        pane.getChildren().add(borderPane);
+
         running = false;
     }
 }

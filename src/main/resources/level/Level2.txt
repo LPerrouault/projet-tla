@@ -1,0 +1,30 @@
+setWalls(
+EEEEEWEEEEEEEWEEEEEW
+WWWWEWEWWWWWEWEWWWWD
+EEEEEWEEEWEWEWEEEEWD
+EWWWWWWWEWEWEWWEWEWD
+EEEEEEEWEWEWEEEEWEWD
+EWWWWWWWEWEWWWWWWEWD
+EWEEEEEEEWEEEEEEEEWD
+EWEWWWWWWWWWWWWWWEWD
+EWEWEEEEEEEWEWEWEEWD
+EWEWEWWWWWEWEEEWEWWD
+EWEWEEEEEWEWEWEWEEWD
+EEEWWWWWEWEWEWEWEWWD
+WWWWEEEEEWEEEWEEEEWD
+FEEEEWWWWWWWWWWWWWWW
+)
+dioActions(
+    dioMove(4) 
+    dioPrepare(couteau) 
+    dioAttaque(couteau)
+    dioMove(2)
+    dioPrepare(rouleau)
+    dioAttaque(rouleau)
+    dioMove(6)
+    dioPrepare(couteau)
+    dioAttaque(couteau)
+    dioMove(8)
+    dioPrepare(rouleau)
+    dioAttaque(rouleau)
+)

@@ -1,11 +1,22 @@
-/home/leo/Documents/WorkSpace/projet-tla/src/main/java/game/Level1.java
-/home/leo/Documents/WorkSpace/projet-tla/src/main/java/game/Game.java
-/home/leo/Documents/WorkSpace/projet-tla/src/main/java/game/Tile.java
-/home/leo/Documents/WorkSpace/projet-tla/src/main/java/game/TileState.java
-/home/leo/Documents/WorkSpace/projet-tla/src/main/java/game/Ghost.java
-/home/leo/Documents/WorkSpace/projet-tla/src/main/java/game/GhostAction.java
-/home/leo/Documents/WorkSpace/projet-tla/src/main/java/game/Level2.java
-/home/leo/Documents/WorkSpace/projet-tla/src/main/java/module-info.java
-/home/leo/Documents/WorkSpace/projet-tla/src/main/java/game/Main.java
-/home/leo/Documents/WorkSpace/projet-tla/src/main/java/game/Level.java
-/home/leo/Documents/WorkSpace/projet-tla/src/main/java/game/SpritesLibrary.java
+F:\Travail\L3 Info\Théorie des langages et automates\Projet Jaja\projet-tla\src\main\java\game\SourceReader.java
+F:\Travail\L3 Info\Théorie des langages et automates\Projet Jaja\projet-tla\src\main\java\game\LevelGame.java
+F:\Travail\L3 Info\Théorie des langages et automates\Projet Jaja\projet-tla\src\main\java\game\AnalyseLexicale.java
+F:\Travail\L3 Info\Théorie des langages et automates\Projet Jaja\projet-tla\src\main\java\game\Obstacle.java
+F:\Travail\L3 Info\Théorie des langages et automates\Projet Jaja\projet-tla\src\main\java\game\TestAnalyseSyntaxique.java
+F:\Travail\L3 Info\Théorie des langages et automates\Projet Jaja\projet-tla\src\main\java\module-info.java
+F:\Travail\L3 Info\Théorie des langages et automates\Projet Jaja\projet-tla\src\main\java\game\Game.java
+F:\Travail\L3 Info\Théorie des langages et automates\Projet Jaja\projet-tla\src\main\java\game\Lemonde.java
+F:\Travail\L3 Info\Théorie des langages et automates\Projet Jaja\projet-tla\src\main\java\game\Edio.java
+F:\Travail\L3 Info\Théorie des langages et automates\Projet Jaja\projet-tla\src\main\java\game\IncompleteParsingException.java
+F:\Travail\L3 Info\Théorie des langages et automates\Projet Jaja\projet-tla\src\main\java\game\LexicalErrorException.java
+F:\Travail\L3 Info\Théorie des langages et automates\Projet Jaja\projet-tla\src\main\java\game\Main.java
+F:\Travail\L3 Info\Théorie des langages et automates\Projet Jaja\projet-tla\src\main\java\game\Token.java
+F:\Travail\L3 Info\Théorie des langages et automates\Projet Jaja\projet-tla\src\main\java\game\SpritesLibrary.java
+F:\Travail\L3 Info\Théorie des langages et automates\Projet Jaja\projet-tla\src\main\java\game\UnexpectedTokenException.java
+F:\Travail\L3 Info\Théorie des langages et automates\Projet Jaja\projet-tla\src\main\java\game\Tile.java
+F:\Travail\L3 Info\Théorie des langages et automates\Projet Jaja\projet-tla\src\main\java\game\IllegalCharacterException.java
+F:\Travail\L3 Info\Théorie des langages et automates\Projet Jaja\projet-tla\src\main\java\game\AnalyseSyntaxique.java
+F:\Travail\L3 Info\Théorie des langages et automates\Projet Jaja\projet-tla\src\main\java\game\TokenClass.java
+F:\Travail\L3 Info\Théorie des langages et automates\Projet Jaja\projet-tla\src\main\java\game\TileState.java
+F:\Travail\L3 Info\Théorie des langages et automates\Projet Jaja\projet-tla\src\main\java\game\EdioAction.java
+F:\Travail\L3 Info\Théorie des langages et automates\Projet Jaja\projet-tla\src\main\java\game\TestAnalyseLexicale.java
