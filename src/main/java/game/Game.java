@@ -129,16 +129,16 @@ public class Game<value> {
             lemonde = new Lemonde(tabCases);
         }
         try {
-        //Analyse lexicale
-        String levelFileName = "src/main/resources/level/Level" + value + ".txt";
-        String levelFileContent = levelGame.getFile(levelFileName);
-        List<Token> tokens = new AnalyseLexicale().analyse(levelFileContent);
-        //Analyse syntaxique
-        levelGame = new AnalyseSyntaxique().analyse(tokens);
+            //Analyse lexicale
+            String levelFileName = "src/main/resources/level/Level" + value + ".txt";
+            String levelFileContent = levelGame.getFile(levelFileName);
+            List<Token> tokens = new AnalyseLexicale().analyse(levelFileContent);
+            //Analyse syntaxique
+            levelGame = new AnalyseSyntaxique().analyse(tokens);
         } catch (Exception e) {
             e.printStackTrace(System.out);
         }
-        
+
         //Génération des murs et de Edio après création du niveau
         //par analyse lexicale et syntaxique
         walls = levelGame.getWalls();
@@ -210,6 +210,9 @@ public class Game<value> {
     }
 
     void playerRefresh() {
+        //Le monde redisparait
+        lemonde.setX(-1);
+        lemonde.setY(-1);
         // déplacement du joueur avec transition visuelle
         TranslateTransition transition = new TranslateTransition();
         transition.setNode(playerNode);
@@ -238,21 +241,18 @@ public class Game<value> {
             for (int[] laCase : lemonde.getCases()) {
                 if (player_x == laCase[0] && player_y == laCase[1]
                         && isVisited(laCase[0], laCase[1]) == 0) {
-                    lemonde.setX(laCase[0] + 2);
-                    lemonde.setY(laCase[1]);
+                    lemonde.setX(laCase[0] + 1);
+                    lemonde.setY(laCase[1] - 1);
                     //Arrêt des mouvements pendant quelques secondes
                     try {
                         Thread.sleep(4000);
-                        //Le monde redisparait
-                        lemonde.setX(-1);
-                        lemonde.setY(-1);
                     } catch (InterruptedException ex) {
                         Thread.currentThread().interrupt();
                     }
 
                 }
             }
-            
+
             // Mise à jour de visited
             int value = visited[player_y * BOARD_WIDTH + player_x] + 1;
             if (value > 2) {
@@ -301,7 +301,7 @@ public class Game<value> {
                 obstacles.add(new Obstacle(edio.getY(), 2));
                 children.add(obstacles.get(obstacles.size() - 1).getNode());
             }
-            
+
             //Animation des obstacles, pour chaque obstacle
             obstacles.forEach(obstacle -> {
                 //Si l'obtacle atteint la colonne -20 (hors du plateau de jeu)
